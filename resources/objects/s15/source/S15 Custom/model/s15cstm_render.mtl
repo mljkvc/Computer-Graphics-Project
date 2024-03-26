@@ -1,0 +1,368 @@
+# Blender MTL File: 's15cstm.blend'
+# Material Count: 32
+
+newmtl Nissan_SilviaS15TNR0_1999BadgeA_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_BadgeA_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_BadgeA_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_BadgeA_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR0_1999Base_Material
+Ns 0.000000
+Ka 0.768116 0.768116 0.768116
+Kd 0.000000 0.000000 0.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 1
+
+newmtl Nissan_SilviaS15TNR0_1999Carbon1_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.341000 0.341000 0.341000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Nissan_SilviaS15TNR0_1999Coloured_Material
+Ns 359.999993
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 1.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\Already Modded\\Global_Texture_Coloured_Diffuse.png
+
+newmtl Nissan_SilviaS15TNR0_1999EngineA_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_EngineA_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_EngineA_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_EngineA_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR0_1999Grille4A_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille4A_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille4A_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille4A_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR0_1999Grille5A_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille5A_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille5A_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille5A_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR0_1999Grille6A_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille6A_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille6A_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille6A_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR0_1999Grille7A_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille7A_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille7A_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille7A_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR0_1999Grille8A_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille8A_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille8A_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille8A_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR0_1999Grille9A_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille9A_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille9A_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_Grille9A_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR0_1999InteriorA_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_InteriorA_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_InteriorA_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_InteriorA_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR0_1999InteriorTillingColourZoneA_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_InteriorTillingColourZoneA_Normal.png
+
+newmtl Nissan_SilviaS15TNR0_1999LightA_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_LightA_Diffuse.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Body_lodA\\Nissan_SilviaS15TNR_1999_LightA_Diffuse.png
+
+newmtl Nissan_SilviaS15TNR0_1999PaintTNR_Material
+Ns 294.253825
+Ka 0.714286 0.714286 0.714286
+Kd 0.080019 0.080019 0.080019
+Ks 0.642857 0.642857 0.642857
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl Nissan_SilviaS15TNR0_1999SeatBelt_Material
+Ns 52.818279
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 1.000000 0.000000
+Ks 0.560000 0.560000 0.560000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\Already Modded\\Global_Texture_Coloured_Diffuse.png
+
+newmtl Nissan_SilviaS15TNR0_1999WindowInside_Material
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 0.500000
+illum 6
+
+newmtl Nissan_SilviaS15TNR0_1999Window_Material
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.000000 0.000000 0.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 0.600000
+illum 6
+
+newmtl Nissan_SilviaS15TNR2_1999Hood2b_Badge_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Nissan_SilviaS15TNR_1999_Hood2b_loda\\Nissan_SilviaS15TNR_1999_Hood2b_Badge_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Nissan_SilviaS15TNR_1999_Hood2b_loda\\Nissan_SilviaS15TNR_1999_Hood2b_Badge_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Nissan_SilviaS15TNR_1999_Hood2b_loda\\Nissan_SilviaS15TNR_1999_Hood2b_Badge_DiffuseAOSO.png
+
+newmtl Nissan_SilviaS15TNR2_1999Hood2b_Grille1_Material
+Ns 199.999995
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Bump C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Nissan_SilviaS15TNR_1999_Hood2b_loda\\Nissan_SilviaS15TNR_1999_Hood1b_Grille1_Normal.png
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Nissan_SilviaS15TNR_1999_Hood2b_loda\\Nissan_SilviaS15TNR_1999_Hood1b_Grille1_DiffuseAOSO.png
+map_d C:\\Users\\ACER\\Desktop\\Mods\\CSR2 Model\\Nissan Silvia S15 Elite Tuners Edition 1999\\With Vertex Colors\\Nissan_SilviaS15TNR_1999_Hood2b_loda\\Nissan_SilviaS15TNR_1999_Hood1b_Grille1_DiffuseAOSO.png
+
+newmtl ambergls
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.542395 0.221611 0.007142
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 0.400000
+illum 6
+
+newmtl badge
+Ns 224.999983
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\3D Models\\Rims\\Volk TE37  SL\\textures\\badge2.png
+
+newmtl badge_rims
+Ns 224.999983
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\3D Models\\Rims\\Volk TE37  SL\\textures\\badge_rims.png
+
+newmtl black
+Ns 295.368609
+Ka 0.536232 0.536232 0.536232
+Kd 0.003095 0.003095 0.003095
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl lugnut.001
+Ns 224.999983
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\3D Models\\Rims\\Volk TE37  SL\\textures\\lug.png
+
+newmtl plastic
+Ns 422.500008
+Ka 0.700000 0.700000 0.700000
+Kd 0.011087 0.011087 0.011087
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+
+newmtl redgls
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Kd 1.000000 0.000000 0.000000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 0.400000
+illum 6
+
+newmtl rims
+Ns 224.999983
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\3D Models\\Rims\\Volk TE37  SL\\textures\\rims3.png
+
+newmtl rotor
+Ns 224.999983
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\3D Models\\Rims\\Volk TE37  SL\\textures\\rotor.png
+
+newmtl spoke
+Ns 224.999983
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 1.000000 1.000000 1.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\3D Models\\Rims\\Volk TE37  SL\\textures\\spoke2.png
+
+newmtl tire
+Ns 81.000021
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 3
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\3D Models\\Rims\\Volk TE37  SL\\textures\\tire.png
+
+newmtl vehicleslights
+Ns 250.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.450000
+d 1.000000
+illum 2
+map_Kd C:\\Users\\ACER\\Desktop\\Mods\\Already Modded\\vehiclelights128.png
