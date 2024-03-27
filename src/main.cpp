@@ -66,8 +66,12 @@ struct ProgramState {
     glm::vec3 put3Position = glm::vec3(-30.0f, 0.0f, 0.0f);
 
 
-    glm::vec3 nisanPosition = glm::vec3(5.0f, 1.0f, -0.0f);
-    float nisanScale = 1.0f;
+    glm::vec3 nisanPosition = glm::vec3(5.0f, 1.65f, 0.0f);
+    float nisanScale = 1.5f;
+
+    glm::vec3 nisanPosition2 = glm::vec3(11.0f, 1.65f, -1.0f);
+    float nisanScale2 = 1.5f;
+
 
     PointLight pointLight;
     ProgramState()
@@ -227,13 +231,17 @@ int main() {
     Model put("resources/objects/road/road.obj");
     put.SetShaderTextureNamePrefix("material.");
 
-    Model nisan("resources/objects/s15/s15cstm_render.obj");
+    Model nisan("resources/objects/nissan-240sx-daijiro-yoshihara/source/SA5HLA5LO5H1RQJ42KKT685IS_obj/SA5HLA5LO5H1RQJ42KKT685IS.obj");
     nisan.SetShaderTextureNamePrefix("material.");
+
+    Model silvia("resources/objects/nissan-silvia-s15-kicker/source/5B0PLJOVYVIQBVNHBTYILMRIV_obj/5B0PLJOVYVIQBVNHBTYILMRIV.obj");
+    nisan.SetShaderTextureNamePrefix("material.");
+
 
 
     PointLight& pointLight = programState->pointLight;
     pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
-    pointLight.ambient = glm::vec3(5.0, 5.0, 5.0);
+    pointLight.ambient = glm::vec3(4.0, 4.0, 4.0);
     pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
     pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
 
@@ -255,12 +263,12 @@ int main() {
     stbi_set_flip_vertically_on_load(false);
     vector<std::string> faces
             {
-                    FileSystem::getPath("resources/textures/skybox2/right.png"),
-                    FileSystem::getPath("resources/textures/skybox2/left.png"),
-                    FileSystem::getPath("resources/textures/skybox2/top.png"),
-                    FileSystem::getPath("resources/textures/skybox2/bottom.png"),
-                    FileSystem::getPath("resources/textures/skybox2/front.png"),
-                    FileSystem::getPath("resources/textures/skybox2/back.png")
+                    FileSystem::getPath("resources/textures/skybox/right.png"),
+                    FileSystem::getPath("resources/textures/skybox/left.png"),
+                    FileSystem::getPath("resources/textures/skybox/top.png"),
+                    FileSystem::getPath("resources/textures/skybox/bottom.png"),
+                    FileSystem::getPath("resources/textures/skybox/front.png"),
+                    FileSystem::getPath("resources/textures/skybox/back.png")
             };
     unsigned int cubemapTexture = loadCubemap(faces);
 
@@ -309,23 +317,23 @@ int main() {
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
 
-        /*
+
         float speed = 7.0f; // brzina puta
         programState->put1Position.x += speed * deltaTime;
         programState->put2Position.x += speed * deltaTime;
         programState->put3Position.x += speed * deltaTime;
 
         //obrce put nazad da ide u beskonacnost
-        if (programState->put1Position.x >= 60.0f) {
-            programState->put1Position.x = -30.0f;
+        if (programState->put1Position.x >= 70.0f) {
+            programState->put1Position.x = -20.0f;
         }
-        if (programState->put2Position.x >= 60.0f) {
-            programState->put2Position.x = -30.0f;
+        if (programState->put2Position.x >= 70.0f) {
+            programState->put2Position.x = -20.0f;
         }
-        if (programState->put3Position.x >= 60.0f) {
-            programState->put3Position.x = -30.0f;
+        if (programState->put3Position.x >= 70.0f) {
+            programState->put3Position.x = -20.0f;
         }
-*/
+
 
         // renderovanje puta
         glm::mat4 put1model = glm::mat4(1.0f);
@@ -355,10 +363,16 @@ int main() {
         glm::mat4 nisanModel = glm::mat4(1.0f);
         nisanModel = glm::translate(nisanModel,programState->nisanPosition);
         nisanModel = glm::scale(nisanModel, glm::vec3(programState->nisanScale));
-        nisanModel = glm::rotate(nisanModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        nisanModel = glm::rotate(nisanModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("model", nisanModel);
         nisan.Draw(ourShader);
 
+        glm::mat4 nisanModel2 = glm::mat4(1.0f);
+        nisanModel2 = glm::translate(nisanModel2,programState->nisanPosition2);
+        nisanModel2 = glm::scale(nisanModel2, glm::vec3(programState->nisanScale2));
+        nisanModel2 = glm::rotate(nisanModel2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", nisanModel2);
+        silvia.Draw(ourShader);
 
 
         // draw skybox
