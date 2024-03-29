@@ -28,6 +28,8 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
 unsigned int loadCubemap(vector<std::string> faces);
 
+unsigned int loadTexture(char const * path);
+
 // settings
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
@@ -64,13 +66,25 @@ struct ProgramState {
 
     glm::vec3 put2Position = glm::vec3(30.0f, 0.0f, 0.0f);
     glm::vec3 put3Position = glm::vec3(-30.0f, 0.0f, 0.0f);
+    glm::vec3 put4Position = glm::vec3(-60.0f, 0.0f, 0.0f);
 
 
     glm::vec3 nisanPosition = glm::vec3(5.0f, 1.65f, 0.0f);
     float nisanScale = 1.5f;
-
     glm::vec3 nisanPosition2 = glm::vec3(11.0f, 1.65f, -1.0f);
     float nisanScale2 = 1.5f;
+    glm::vec3 nisanPosition3 = glm::vec3(-1.0f, 1.65f, -1.0f);
+    float nisanScale3 = 0.7f;
+
+    glm::vec3 drvo1Position = glm::vec3(11.0f, 0.8f, 5.0f);
+    float drvo1Scale = 0.01f;
+    glm::vec3 drvo2Position = glm::vec3(5.0f, 0.8f, 5.0f);
+    float drvo2Scale = 0.01f;
+    glm::vec3 drvo3Position = glm::vec3(-5.0f, 0.8f, 5.0f);
+    float drvo3Scale = 0.3f;
+
+    glm::vec3 travaPosition = glm::vec3(-5.0f, -0.4f, 5.0f);
+    float travaScale = 0.1f;
 
 
     PointLight pointLight;
@@ -177,8 +191,9 @@ int main() {
     // build and compile shaders
     // -------------------------
     Shader ourShader("resources/shaders/2.model_lighting.vs", "resources/shaders/2.model_lighting.fs");
-
     Shader skyboxShader("resources/shaders/skybox.vs", "resources/shaders/skybox.fs");
+    Shader textureShader("resources/shaders/texture.vs", "resources/shaders/texture.fs");
+
 
     float skyboxVertices[] = {
             // positions
@@ -225,29 +240,73 @@ int main() {
             1.0f, -1.0f,  1.0f
     };
 
+
+//    pozicija trave
+    float planeVertices[] = {
+            // positions          // texture Coords
+            15.0f, 1.0f,  15.0f,  2.0f, 0.0f,
+            -15.0f, 1.0f,  15.0f,  0.0f, 0.0f,
+            -15.0f, 1.0f, -15.0f,  0.0f, 2.0f,
+
+            15.0f, 1.0f,  15.0f,  2.0f, 0.0f,
+            -15.0f, 1.0f, -15.0f,  0.0f, 2.0f,
+            15.0f, 1.0f, -15.0f,  2.0f, 2.0f
+    };
+
+
+
     // load models
     // -----------
     stbi_set_flip_vertically_on_load(false);
     Model put("resources/objects/road/road.obj");
     put.SetShaderTextureNamePrefix("material.");
 
-    Model nisan("resources/objects/nissan-240sx-daijiro-yoshihara/source/SA5HLA5LO5H1RQJ42KKT685IS_obj/SA5HLA5LO5H1RQJ42KKT685IS.obj");
+    Model nisan("resources/objects/Auti/nissan-240sx/SA5HLA5LO5H1RQJ42KKT685IS.obj");
+    nisan.SetShaderTextureNamePrefix("material.");
+    Model silvia("resources/objects/Auti/nissan-s15/5B0PLJOVYVIQBVNHBTYILMRIV.obj");
+    nisan.SetShaderTextureNamePrefix("material.");
+    Model sxNissan("resources/objects/Auti/polovicni auti/nissan_180sx_free/scene.gltf");
     nisan.SetShaderTextureNamePrefix("material.");
 
-    Model silvia("resources/objects/nissan-silvia-s15-kicker/source/5B0PLJOVYVIQBVNHBTYILMRIV_obj/5B0PLJOVYVIQBVNHBTYILMRIV.obj");
-    nisan.SetShaderTextureNamePrefix("material.");
+    Model drvo1("resources/objects/Priroda/japanese-maple/japaneseMaple.obj");
+    drvo1.SetShaderTextureNamePrefix("material.");
+    Model drvo2("resources/objects/Priroda/peach-blossom/peachBlossom.obj");
+    drvo2.SetShaderTextureNamePrefix("material.");
+    Model drvo3("resources/objects/Priroda/drvo/scene.gltf");
+    drvo3.SetShaderTextureNamePrefix("material.");
 
+    Model trava("resources/objects/Priroda/travaa/scene.gltf");
+    trava.SetShaderTextureNamePrefix("material.");
+
+
+    //===============
 
 
     PointLight& pointLight = programState->pointLight;
     pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
-    pointLight.ambient = glm::vec3(4.0, 4.0, 4.0);
+    pointLight.ambient = glm::vec3(3.0, 3.0, 3.0);
     pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
     pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
 
     pointLight.constant = 1.0f;
     pointLight.linear = 0.09f;
     pointLight.quadratic = 0.032f;
+
+    // plane VAO
+    unsigned int planeVAO, planeVBO;
+    glGenVertexArrays(1, &planeVAO);
+    glGenBuffers(1, &planeVBO);
+    glBindVertexArray(planeVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
+    glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), &planeVertices, GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(1);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+
+    // load textures
+    unsigned int planeTexture = loadTexture(FileSystem::getPath("resources/textures/grass.jpg").c_str());
+
 
     // skybox VAO
     unsigned int skyboxVAO, skyboxVBO;
@@ -275,6 +334,9 @@ int main() {
     // shader configuration
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
+
+    textureShader.use();
+    textureShader.setInt("texture1", 0);
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -322,16 +384,21 @@ int main() {
         programState->put1Position.x += speed * deltaTime;
         programState->put2Position.x += speed * deltaTime;
         programState->put3Position.x += speed * deltaTime;
+        programState->put4Position.x += speed * deltaTime;
+
 
         //obrce put nazad da ide u beskonacnost
-        if (programState->put1Position.x >= 70.0f) {
-            programState->put1Position.x = -20.0f;
+        if (programState->put1Position.x >= 60.0f) {
+            programState->put1Position.x = -30.0f;
         }
-        if (programState->put2Position.x >= 70.0f) {
-            programState->put2Position.x = -20.0f;
+        if (programState->put2Position.x >= 60.0f) {
+            programState->put2Position.x = -30.0f;
         }
-        if (programState->put3Position.x >= 70.0f) {
-            programState->put3Position.x = -20.0f;
+        if (programState->put3Position.x >= 60.0f) {
+            programState->put3Position.x = -30.0f;
+        }
+        if (programState->put4Position.x >= 60.0f) {
+            programState->put4Position.x = -30.0f;
         }
 
 
@@ -339,7 +406,6 @@ int main() {
         glm::mat4 put1model = glm::mat4(1.0f);
         put1model = glm::translate(put1model,programState->put1Position);
         put1model = glm::scale(put1model, glm::vec3(programState->putScale));
-
         ourShader.setMat4("model", put1model);
         put.Draw(ourShader);
 
@@ -347,16 +413,23 @@ int main() {
         glm::mat4 put2model = glm::mat4(1.0f);
         put2model = glm::translate(put2model,programState->put2Position);
         put2model = glm::scale(put2model, glm::vec3(programState->putScale));
-
         ourShader.setMat4("model", put2model);
         put.Draw(ourShader);
-//3 deo
+
+        //3 deo
         glm::mat4 put3model = glm::mat4(1.0f);
         put3model = glm::translate(put3model,programState->put3Position);
         put3model = glm::scale(put3model, glm::vec3(programState->putScale));
-
         ourShader.setMat4("model", put3model);
         put.Draw(ourShader);
+
+        //4 deo
+        glm::mat4 put4model = glm::mat4(1.0f);
+        put4model = glm::translate(put4model,programState->put4Position);
+        put4model = glm::scale(put4model, glm::vec3(programState->putScale));
+        ourShader.setMat4("model", put4model);
+        put.Draw(ourShader);
+
 
 
         //renderovanje nisana
@@ -367,12 +440,55 @@ int main() {
         ourShader.setMat4("model", nisanModel);
         nisan.Draw(ourShader);
 
+        //renderovanje drugog nisana
         glm::mat4 nisanModel2 = glm::mat4(1.0f);
         nisanModel2 = glm::translate(nisanModel2,programState->nisanPosition2);
         nisanModel2 = glm::scale(nisanModel2, glm::vec3(programState->nisanScale2));
         nisanModel2 = glm::rotate(nisanModel2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("model", nisanModel2);
         silvia.Draw(ourShader);
+
+        //renderovanje treceg nisana
+        glm::mat4 nisanModel3 = glm::mat4(1.0f);
+        nisanModel3 = glm::translate(nisanModel3,programState->nisanPosition3);
+        nisanModel3 = glm::scale(nisanModel3, glm::vec3(programState->nisanScale3));
+        nisanModel3 = glm::rotate(nisanModel3, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        nisanModel3 = glm::rotate(nisanModel3, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        ourShader.setMat4("model", nisanModel3);
+        sxNissan.Draw(ourShader);
+
+
+        //renderovanje drveca
+        //1
+        glm::mat4 drvo1Model = glm::mat4(1.0f);
+        drvo1Model = glm::translate(drvo1Model,programState->drvo1Position);
+        drvo1Model = glm::scale(drvo1Model, glm::vec3(programState->drvo1Scale));
+        drvo1Model = glm::rotate(drvo1Model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", drvo1Model);
+        drvo1.Draw(ourShader);
+        //2
+        glm::mat4 drvo2Model = glm::mat4(1.0f);
+        drvo2Model = glm::translate(drvo2Model,programState->drvo2Position);
+        drvo2Model = glm::scale(drvo2Model, glm::vec3(programState->drvo2Scale));
+        drvo2Model = glm::rotate(drvo2Model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", drvo2Model);
+        drvo2.Draw(ourShader);
+        //3
+        glm::mat4 drvo3Model = glm::mat4(1.0f);
+        drvo3Model = glm::translate(drvo3Model,programState->drvo3Position);
+        drvo3Model = glm::scale(drvo3Model, glm::vec3(programState->drvo3Scale));
+        drvo3Model = glm::rotate(drvo3Model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", drvo3Model);
+        drvo3.Draw(ourShader);
+
+        //render trave
+//        glm::mat4 travaModel = glm::mat4(1.0f);
+//        travaModel = glm::translate(travaModel,programState->travaPosition);
+//        travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
+//        travaModel = glm::rotate(travaModel, glm::radians(95.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+//        ourShader.setMat4("model", travaModel);
+//        trava.Draw(ourShader);
+
 
 
         // draw skybox
@@ -390,9 +506,24 @@ int main() {
         glDepthFunc(GL_LESS); // set depth function back to default
 
 
+        // crta travu
+        //ovaj deo koda je pozajmljen privremeno od kolege sa github naloga bodgans55
+        glm::mat4 model = glm::mat4(1.0f);
+        textureShader.use();
+        projection = glm::perspective(glm::radians(programState->camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
+        view = programState->camera.GetViewMatrix();
+        model = glm::mat4(1.0f);
+        model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
+        textureShader.setMat4("projection", projection);
+        textureShader.setMat4("view", view);
+        glBindVertexArray(planeVAO);
+        glBindTexture(GL_TEXTURE_2D, planeTexture);
+        textureShader.setMat4("model", model);
+        glDrawArrays(GL_TRIANGLES, 0, 6);
+
+
         if (programState->ImGuiEnabled)
             DrawImGui(programState);
-
 
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
@@ -409,7 +540,9 @@ int main() {
 
     // deallocate
     glDeleteVertexArrays(1, &skyboxVAO);
+    glDeleteVertexArrays(1, &planeVAO);
     glDeleteBuffers(1, &skyboxVAO);
+    glDeleteBuffers(1, &planeVAO);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
@@ -549,3 +682,38 @@ unsigned int loadCubemap(vector<std::string> faces){
     return textureID;
 }
 
+
+
+unsigned int loadTexture(char const * path) {
+    unsigned int textureID;
+    glGenTextures(1, &textureID);
+
+    int width, height, nrComponents;
+    unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
+    if (data) {
+        GLenum format;
+        if (nrComponents == 1)
+            format = GL_RED;
+        else if (nrComponents == 3)
+            format = GL_RGB;
+        else if (nrComponents == 4)
+            format = GL_RGBA;
+
+        glBindTexture(GL_TEXTURE_2D, textureID);
+        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, format == GL_RGBA ? GL_CLAMP_TO_EDGE
+                                                                            : GL_REPEAT); // for this tutorial: use GL_CLAMP_TO_EDGE to prevent semi-transparent borders. Due to interpolation it takes texels from next repeat
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+
+        stbi_image_free(data);
+    } else {
+        std::cout << "Texture failed to load at path: " << path << std::endl;
+        stbi_image_free(data);
+    }
+
+    return textureID;
+}
