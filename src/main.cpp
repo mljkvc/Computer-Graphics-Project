@@ -188,6 +188,12 @@ int main() {
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
 
+
+    //face culling
+    glEnable(GL_CULL_FACE);
+    glCullFace(GL_FRONT);
+    glFrontFace(GL_CW);
+
     // build and compile shaders
     // -------------------------
     Shader ourShader("resources/shaders/2.model_lighting.vs", "resources/shaders/2.model_lighting.fs");
@@ -508,6 +514,7 @@ int main() {
 
         // crta travu
         //ovaj deo koda je pozajmljen privremeno od kolege sa github naloga bodgans55
+        glDisable(GL_CULL_FACE);
         glm::mat4 model = glm::mat4(1.0f);
         textureShader.use();
         projection = glm::perspective(glm::radians(programState->camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
@@ -520,6 +527,7 @@ int main() {
         glBindTexture(GL_TEXTURE_2D, planeTexture);
         textureShader.setMat4("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 6);
+        glEnable(GL_CULL_FACE);
 
 
         if (programState->ImGuiEnabled)
