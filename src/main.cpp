@@ -69,11 +69,11 @@ struct ProgramState {
     glm::vec3 put4Position = glm::vec3(-60.0f, 0.0f, 0.0f);
 
 
-    glm::vec3 nisanPosition = glm::vec3(5.0f, 1.65f, 0.0f);
+    glm::vec3 nisanPosition = glm::vec3(5.0f, 1.65f, 0.7f);
     float nisanScale = 1.5f;
-    glm::vec3 nisanPosition2 = glm::vec3(11.0f, 1.65f, -1.0f);
+    glm::vec3 nisanPosition2 = glm::vec3(11.0f, 1.65f, -1.1f);
     float nisanScale2 = 1.5f;
-    glm::vec3 nisanPosition3 = glm::vec3(-1.0f, 1.65f, -1.0f);
+    glm::vec3 nisanPosition3 = glm::vec3(-1.0f, 1.65f, -1.1f);
     float nisanScale3 = 0.7f;
 
     glm::vec3 drvo1Position = glm::vec3(11.0f, 0.8f, 5.0f);
@@ -83,8 +83,11 @@ struct ProgramState {
     glm::vec3 drvo3Position = glm::vec3(-5.0f, 0.8f, 5.0f);
     float drvo3Scale = 0.3f;
 
-    glm::vec3 travaPosition = glm::vec3(-5.0f, -0.4f, 5.0f);
-    float travaScale = 0.1f;
+    glm::vec3 travaPosition = glm::vec3(-15.0f, 1.0f, 4.5f);
+    glm::vec3 travaPosition2 = glm::vec3(-6.0f, 1.0f, 4.5f);
+    glm::vec3 travaPosition3 = glm::vec3(3.0f, 1.0f, 4.5f);
+    glm::vec3 travaPosition4 = glm::vec3(12.0f, 1.0f, 4.5f);
+    float travaScale = 1.0f;
 
 
     PointLight pointLight;
@@ -281,8 +284,8 @@ int main() {
     Model drvo3("resources/objects/Priroda/drvo/scene.gltf");
     drvo3.SetShaderTextureNamePrefix("material.");
 
-    Model trava("resources/objects/Priroda/travaa/scene.gltf");
-    trava.SetShaderTextureNamePrefix("material.");
+    Model trava2("resources/objects/Priroda/green_field/scene.gltf");
+    trava2.SetShaderTextureNamePrefix("material.");
 
 
     //===============
@@ -346,6 +349,9 @@ int main() {
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+    bool prekidac = false;
+    bool prekidac2 = true;
+    bool prekidac3 = true;
 
     // render loop
     // -----------
@@ -395,17 +401,58 @@ int main() {
 
         //obrce put nazad da ide u beskonacnost
         if (programState->put1Position.x >= 60.0f) {
-            programState->put1Position.x = -30.0f;
+            programState->put1Position.x = -40.0f;
         }
         if (programState->put2Position.x >= 60.0f) {
-            programState->put2Position.x = -30.0f;
+            programState->put2Position.x = -40.0f;
         }
         if (programState->put3Position.x >= 60.0f) {
-            programState->put3Position.x = -30.0f;
+            programState->put3Position.x = -40.0f;
         }
         if (programState->put4Position.x >= 60.0f) {
-            programState->put4Position.x = -30.0f;
+            programState->put4Position.x = -40.0f;
         }
+
+
+
+        float napred = 5.0f;
+        float nazad = 3.0f;
+
+        programState->nisanPosition3.z = sin(currentFrame * 1.2f)/2;
+        if(prekidac)
+            programState->nisanPosition.x -= napred * deltaTime;
+        if(!prekidac)
+            programState->nisanPosition.x += nazad * deltaTime;
+
+        if(programState->nisanPosition.x <= -5.0f) {
+            prekidac = false;
+        }
+        if(programState->nisanPosition.x >= 4.0f)
+            prekidac = true;
+
+        if(prekidac2)
+            programState->nisanPosition2.x -= napred * deltaTime;
+        if(!prekidac2)
+            programState->nisanPosition2.x += nazad * deltaTime;
+
+        if(programState->nisanPosition2.x <= 2.0f) {
+            prekidac2 = false;
+        }
+        if(programState->nisanPosition2.x >= 10.0f)
+            prekidac2 = true;
+
+        if(prekidac3)
+            programState->nisanPosition3.x -= napred * deltaTime;
+        if(!prekidac3)
+            programState->nisanPosition3.x += nazad * deltaTime;
+
+        if(programState->nisanPosition3.x <= -10.0f) {
+            prekidac3 = false;
+        }
+        if(programState->nisanPosition3.x >= -1.0f)
+            prekidac3 = true;
+
+
 
 
         // renderovanje puta
@@ -488,14 +535,37 @@ int main() {
         drvo3.Draw(ourShader);
 
         //render trave
-//        glm::mat4 travaModel = glm::mat4(1.0f);
-//        travaModel = glm::translate(travaModel,programState->travaPosition);
-//        travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
-//        travaModel = glm::rotate(travaModel, glm::radians(95.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-//        ourShader.setMat4("model", travaModel);
-//        trava.Draw(ourShader);
+        //1
+        glDisable(GL_CULL_FACE);
+        glm::mat4 travaModel = glm::mat4(1.0f);
+        travaModel = glm::translate(travaModel,programState->travaPosition);
+        travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
+        travaModel = glm::rotate(travaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", travaModel);
+        trava2.Draw(ourShader);
+        //2
+        glm::mat4 travaModel2 = glm::mat4(1.0f);
+        travaModel2 = glm::translate(travaModel2,programState->travaPosition2);
+        travaModel2 = glm::scale(travaModel2, glm::vec3(programState->travaScale));
+        travaModel2 = glm::rotate(travaModel2, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", travaModel2);
+        trava2.Draw(ourShader);
+        //3
+        glm::mat4 travaModel3 = glm::mat4(1.0f);
+        travaModel3 = glm::translate(travaModel3,programState->travaPosition3);
+        travaModel3 = glm::scale(travaModel3, glm::vec3(programState->travaScale));
+        travaModel3 = glm::rotate(travaModel3, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", travaModel3);
+        trava2.Draw(ourShader);
+        //4
+        glm::mat4 travaModel4 = glm::mat4(1.0f);
+        travaModel4 = glm::translate(travaModel4,programState->travaPosition4);
+        travaModel4 = glm::scale(travaModel4, glm::vec3(programState->travaScale));
+        travaModel4 = glm::rotate(travaModel4, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", travaModel4);
+        trava2.Draw(ourShader);
 
-
+        glEnable(GL_CULL_FACE);
 
         // draw skybox
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
