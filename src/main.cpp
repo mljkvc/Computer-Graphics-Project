@@ -44,12 +44,18 @@ bool firstMouse = true;
 float deltaTime = 0.0f;
 float lastFrame = 0.0f;
 
+struct DirLight {
+    glm::vec3 direction;
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+};
+
 struct PointLight {
     glm::vec3 position;
     glm::vec3 ambient;
     glm::vec3 diffuse;
     glm::vec3 specular;
-
     float constant;
     float linear;
     float quadratic;
@@ -61,13 +67,13 @@ struct ProgramState {
     Camera camera;
     bool CameraMouseMovementUpdateEnabled = true;
 
-    glm::vec3 put1Position = glm::vec3(0.0f, 0.0f, 0.0f);
     float putScale = 1.0f;
-
+    glm::vec3 put1Position = glm::vec3(60.0f, 0.0f, 0.0f);
     glm::vec3 put2Position = glm::vec3(30.0f, 0.0f, 0.0f);
-    glm::vec3 put3Position = glm::vec3(-30.0f, 0.0f, 0.0f);
-    glm::vec3 put4Position = glm::vec3(-60.0f, 0.0f, 0.0f);
-
+    glm::vec3 put3Position = glm::vec3(0.0f, 0.0f, 0.0f);
+    glm::vec3 put4Position = glm::vec3(-30.0f, 0.0f, 0.0f);
+    glm::vec3 put5Position = glm::vec3(-60.0f, 0.0f, 0.0f);
+    glm::vec3 put6Position = glm::vec3(-90.0f, 0.0f, 0.0f);
 
     glm::vec3 nisanPosition = glm::vec3(5.0f, 1.65f, 0.7f);
     float nisanScale = 1.5f;
@@ -83,10 +89,10 @@ struct ProgramState {
     glm::vec3 drvo3Position = glm::vec3(-5.0f, 0.8f, 5.0f);
     float drvo3Scale = 0.3f;
 
-    glm::vec3 travaPosition = glm::vec3(-15.0f, 1.0f, 4.5f);
-    glm::vec3 travaPosition2 = glm::vec3(-6.0f, 1.0f, 4.5f);
-    glm::vec3 travaPosition3 = glm::vec3(3.0f, 1.0f, 4.5f);
-    glm::vec3 travaPosition4 = glm::vec3(12.0f, 1.0f, 4.5f);
+    glm::vec3 travaPosition = glm::vec3(-15.0f, 0.9f, 4.3f);
+    glm::vec3 travaPosition2 = glm::vec3(-6.0f, 1.0f, 4.3f);
+    glm::vec3 travaPosition3 = glm::vec3(3.0f, 1.0f, 4.3f);
+    glm::vec3 travaPosition4 = glm::vec3(12.0f, 1.0f, 4.3f);
     float travaScale = 1.0f;
 
 
@@ -286,20 +292,27 @@ int main() {
 
     Model trava2("resources/objects/Priroda/green_field/scene.gltf");
     trava2.SetShaderTextureNamePrefix("material.");
-
-
     //===============
 
 
+
+    //svetlo iz kostura
     PointLight& pointLight = programState->pointLight;
     pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
-    pointLight.ambient = glm::vec3(3.0, 3.0, 3.0);
+    pointLight.ambient = glm::vec3(0.3);
     pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
     pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
 
     pointLight.constant = 1.0f;
     pointLight.linear = 0.09f;
     pointLight.quadratic = 0.032f;
+
+    DirLight dirLight;
+    dirLight.direction = glm::vec3(-0.2f, -0.1f, -0.3f);
+    dirLight.ambient = glm::vec3(0.4f);
+    dirLight.diffuse = glm::vec3(0.4f);
+    dirLight.specular = glm::vec3(0.5f);
+
 
     // plane VAO
     unsigned int planeVAO, planeVBO;
@@ -382,6 +395,12 @@ int main() {
         ourShader.setFloat("pointLight.constant", pointLight.constant);
         ourShader.setFloat("pointLight.linear", pointLight.linear);
         ourShader.setFloat("pointLight.quadratic", pointLight.quadratic);
+
+        ourShader.setVec3("dirLight.direction", dirLight.direction);
+        ourShader.setVec3("dirLight.ambient", dirLight.ambient);
+        ourShader.setVec3("dirLight.diffuse", dirLight.diffuse);
+        ourShader.setVec3("dirLight.specular", dirLight.specular);
+
         ourShader.setVec3("viewPosition", programState->camera.Position);
         ourShader.setFloat("material.shininess", 32.0f);
         // view/projection transformations
@@ -397,21 +416,23 @@ int main() {
         programState->put2Position.x += speed * deltaTime;
         programState->put3Position.x += speed * deltaTime;
         programState->put4Position.x += speed * deltaTime;
+        programState->put5Position.x += speed * deltaTime;
+        programState->put6Position.x += speed * deltaTime;
 
+//        obrce put nazad da ide u beskonacnost
+        if (programState->put1Position.x >= 75.0f)
+            programState->put1Position.x = -75.0f;
+        if (programState->put2Position.x >= 75.0f)
+            programState->put2Position.x = -75.0f;
+        if (programState->put3Position.x >= 75.0f)
+            programState->put3Position.x = -75.0f;
+        if (programState->put4Position.x >= 75.0f)
+            programState->put4Position.x = -75.0f;
+        if (programState->put5Position.x >= 75.0f)
+            programState->put5Position.x = -75.0f;
+        if (programState->put6Position.x >= 75.0f)
+            programState->put6Position.x = -75.0f;
 
-        //obrce put nazad da ide u beskonacnost
-        if (programState->put1Position.x >= 60.0f) {
-            programState->put1Position.x = -40.0f;
-        }
-        if (programState->put2Position.x >= 60.0f) {
-            programState->put2Position.x = -40.0f;
-        }
-        if (programState->put3Position.x >= 60.0f) {
-            programState->put3Position.x = -40.0f;
-        }
-        if (programState->put4Position.x >= 60.0f) {
-            programState->put4Position.x = -40.0f;
-        }
 
 
 
@@ -461,26 +482,35 @@ int main() {
         put1model = glm::scale(put1model, glm::vec3(programState->putScale));
         ourShader.setMat4("model", put1model);
         put.Draw(ourShader);
-
         //2 deo
         glm::mat4 put2model = glm::mat4(1.0f);
         put2model = glm::translate(put2model,programState->put2Position);
         put2model = glm::scale(put2model, glm::vec3(programState->putScale));
         ourShader.setMat4("model", put2model);
         put.Draw(ourShader);
-
         //3 deo
         glm::mat4 put3model = glm::mat4(1.0f);
         put3model = glm::translate(put3model,programState->put3Position);
         put3model = glm::scale(put3model, glm::vec3(programState->putScale));
         ourShader.setMat4("model", put3model);
         put.Draw(ourShader);
-
         //4 deo
         glm::mat4 put4model = glm::mat4(1.0f);
         put4model = glm::translate(put4model,programState->put4Position);
         put4model = glm::scale(put4model, glm::vec3(programState->putScale));
         ourShader.setMat4("model", put4model);
+        put.Draw(ourShader);
+        //5 deo
+        glm::mat4 put5model = glm::mat4(1.0f);
+        put5model = glm::translate(put5model,programState->put5Position);
+        put5model = glm::scale(put5model, glm::vec3(programState->putScale));
+        ourShader.setMat4("model", put5model);
+        put.Draw(ourShader);
+        //6 deo
+        glm::mat4 put6model = glm::mat4(1.0f);
+        put6model = glm::translate(put6model,programState->put6Position);
+        put6model = glm::scale(put6model, glm::vec3(programState->putScale));
+        ourShader.setMat4("model", put6model);
         put.Draw(ourShader);
 
 
