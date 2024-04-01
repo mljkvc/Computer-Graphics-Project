@@ -84,15 +84,13 @@ struct ProgramState {
 
     glm::vec3 drvo1Position = glm::vec3(11.0f, 0.8f, 5.0f);
     float drvo1Scale = 0.01f;
-    glm::vec3 drvo2Position = glm::vec3(5.0f, 0.8f, 5.0f);
+    glm::vec3 drvo2Position = glm::vec3(7.0f, 0.8f, 5.0f);
     float drvo2Scale = 0.01f;
-    glm::vec3 drvo3Position = glm::vec3(-5.0f, 0.8f, 5.0f);
+    glm::vec3 drvo3Position = glm::vec3(3.0f, 0.8f, 7.0f);
     float drvo3Scale = 0.3f;
 
-    glm::vec3 travaPosition = glm::vec3(-15.0f, 0.9f, 4.3f);
-    glm::vec3 travaPosition2 = glm::vec3(-6.0f, 1.0f, 4.3f);
-    glm::vec3 travaPosition3 = glm::vec3(3.0f, 1.0f, 4.3f);
-    glm::vec3 travaPosition4 = glm::vec3(12.0f, 1.0f, 4.3f);
+    glm::vec3 travaPosition = glm::vec3(-60.0f, 0.9f, 4.3f);
+    glm::vec3 trava2Position = glm::vec3(-60.0f, 0.9f, -10.5f);
     float travaScale = 1.0f;
 
 
@@ -553,49 +551,50 @@ int main() {
         glm::mat4 drvo2Model = glm::mat4(1.0f);
         drvo2Model = glm::translate(drvo2Model,programState->drvo2Position);
         drvo2Model = glm::scale(drvo2Model, glm::vec3(programState->drvo2Scale));
-        drvo2Model = glm::rotate(drvo2Model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        drvo2Model = glm::rotate(drvo2Model, glm::radians(70.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("model", drvo2Model);
         drvo2.Draw(ourShader);
         //3
         glm::mat4 drvo3Model = glm::mat4(1.0f);
         drvo3Model = glm::translate(drvo3Model,programState->drvo3Position);
         drvo3Model = glm::scale(drvo3Model, glm::vec3(programState->drvo3Scale));
-        drvo3Model = glm::rotate(drvo3Model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        drvo3Model = glm::rotate(drvo3Model, glm::radians(30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("model", drvo3Model);
         drvo3.Draw(ourShader);
 
-        //render trave
-        //1
+        //render trave------------------------------------------
+
+        //pomeranje trave
+        programState->travaPosition.x += speed * deltaTime;
+        programState->trava2Position.x += speed * deltaTime;
+        if (programState->travaPosition.x >= -40.0f)
+            programState->travaPosition.x = -60.0f;
+        if (programState->trava2Position.x >= -40.0f)
+            programState->trava2Position.x = -60.0f;
+
         glDisable(GL_CULL_FACE);
         glm::mat4 travaModel = glm::mat4(1.0f);
-        travaModel = glm::translate(travaModel,programState->travaPosition);
-        travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
-        travaModel = glm::rotate(travaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", travaModel);
-        trava2.Draw(ourShader);
-        //2
-        glm::mat4 travaModel2 = glm::mat4(1.0f);
-        travaModel2 = glm::translate(travaModel2,programState->travaPosition2);
-        travaModel2 = glm::scale(travaModel2, glm::vec3(programState->travaScale));
-        travaModel2 = glm::rotate(travaModel2, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", travaModel2);
-        trava2.Draw(ourShader);
-        //3
-        glm::mat4 travaModel3 = glm::mat4(1.0f);
-        travaModel3 = glm::translate(travaModel3,programState->travaPosition3);
-        travaModel3 = glm::scale(travaModel3, glm::vec3(programState->travaScale));
-        travaModel3 = glm::rotate(travaModel3, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", travaModel3);
-        trava2.Draw(ourShader);
-        //4
-        glm::mat4 travaModel4 = glm::mat4(1.0f);
-        travaModel4 = glm::translate(travaModel4,programState->travaPosition4);
-        travaModel4 = glm::scale(travaModel4, glm::vec3(programState->travaScale));
-        travaModel4 = glm::rotate(travaModel4, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", travaModel4);
-        trava2.Draw(ourShader);
-
+        //desno
+        for (int i = 0; i < 16; ++i) {
+            travaModel = glm::mat4(1.0f);
+            travaModel = glm::translate(travaModel,programState->travaPosition + glm::vec3(9.0f * float(i), 0.0f, 0.0f));
+            travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
+            travaModel = glm::rotate(travaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            ourShader.setMat4("model", travaModel);
+            trava2.Draw(ourShader);
+        }
+        //levo
+        for (int i = 0; i < 16; ++i) {
+            travaModel = glm::mat4(1.0f);
+            travaModel = glm::translate(travaModel,programState->trava2Position + glm::vec3(9.0f * float(i), 0.0f, 0.0f));
+            travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
+            travaModel = glm::rotate(travaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            ourShader.setMat4("model", travaModel);
+            trava2.Draw(ourShader);
+        }
         glEnable(GL_CULL_FACE);
+
+
 
         // draw skybox
         glDepthFunc(GL_LEQUAL);  // change depth function so depth test passes when values are equal to depth buffer's content
@@ -732,7 +731,7 @@ void DrawImGui(ProgramState *programState) {
         ImGui::DragFloat("pointLight.quadratic", &programState->pointLight.quadratic, 0.05, 0.0, 1.0);
         ImGui::End();
     }
-
+*/
     {
         ImGui::Begin("Camera info");
         const Camera& c = programState->camera;
@@ -741,7 +740,7 @@ void DrawImGui(ProgramState *programState) {
         ImGui::Text("Camera front: (%f, %f, %f)", c.Front.x, c.Front.y, c.Front.z);
         ImGui::Checkbox("Camera mouse update", &programState->CameraMouseMovementUpdateEnabled);
         ImGui::End();
-    }*/
+    }
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
