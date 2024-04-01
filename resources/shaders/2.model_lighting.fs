@@ -30,7 +30,7 @@ struct Material {
 in vec2 TexCoords;
 in vec3 Normal;
 in vec3 FragPos;
-//in vec3 WorldPos;
+ in vec3 WorldPos;
 
 
 uniform PointLight pointLight;
@@ -38,11 +38,11 @@ uniform Material material;
 uniform DirLight dirLight;
 
 // fog
-// uniform sampler2D gSampler;
-// uniform vec3 gCameraWorldPos;
-// uniform float gExpFogDensity = 1.0;
-// uniform float gFogEnd = -1.0;
-// uniform float gFogColor = vec3(0.0, 0.0, 0.0);
+uniform sampler2D gSampler;
+uniform vec3 gCameraWorldPos;
+uniform float gExpFogDensity = 100.0;
+uniform float gFogEnd = -10.0;
+uniform vec3 gFogColor = vec3(0.0, 0.0, 0.0);
 
 uniform vec3 viewPosition;
 // calculates the color when using a point light.
@@ -86,13 +86,13 @@ vec3 CalcDirectionalLight(DirLight light, vec3 normal, vec3 viewDir)
     return (ambient + diffuse + specular);
 }
 
-// float CalcExpFogFactor()
-// {
-//     float CameraToPixelDist = length(WorldPos - gCameraWorldPos);
-//     float DistRatio = 4.0 * CameraToPixelDist / gFogEnd;
-//     float FogFactor = exp(-DistRatio * gExpFogDensity * DistRatio * gExpFogDensity);
-//     return FogFactor;
-// }
+float CalcExpFogFactor()
+{
+    float CameraToPixelDist = length(WorldPos - gCameraWorldPos);
+    float DistRatio = 4.0 * CameraToPixelDist / gFogEnd;
+    float FogFactor = exp(-DistRatio * gExpFogDensity * DistRatio * gExpFogDensity);
+    return FogFactor;
+}
 
 
 void main()
@@ -103,11 +103,9 @@ void main()
     result += CalcDirectionalLight(dirLight, normal, viewDir);
     FragColor = vec4(result, 1.0);
 
-//     vec4 TempColor = texture2D(gSampler, TexCoords.xy) * vec4(result, 1.0);
-//     //fog
-//     if(gFogColor != vec3(0)){
-//         float FogFactor = CalcExpFogFactor();
-//         TempColor = mix(vec4(gFogColor, 1.0), TempColor, FogFactor);
-//     }
-//     FragColor = TempColor;
+    vec4 TempColor = texture2D(gSampler, TexCoords.xy) * vec4(result, 1.0);
+    //fog
+    float FogFactor = CalcExpFogFactor();
+    TempColor = mix(vec4(gFogColor, 1.0), TempColor, FogFactor);
+    FragColor = TempColor;
 }
