@@ -20,6 +20,21 @@ struct DirLight {
     vec3 specular;
 };
 
+// struct SpotLight {
+//     vec3 position;
+//     vec3 direction;
+//     float cutOff;
+//     float outerCutOff;
+//
+//     float constant;
+//     float linear;
+//     float quadratic;
+//
+//     vec3 ambient;
+//     vec3 diffuse;
+//     vec3 specular;
+// };
+
 struct Material {
     sampler2D texture_diffuse1;
     sampler2D texture_specular1;
@@ -30,12 +45,13 @@ struct Material {
 in vec2 TexCoords;
 in vec3 Normal;
 in vec3 FragPos;
- in vec3 WorldPos;
+in vec3 WorldPos;
 
 
 uniform PointLight pointLight;
 uniform Material material;
 uniform DirLight dirLight;
+// uniform SpotLight spotLight;
 
 // fog
 uniform sampler2D gSampler;
@@ -101,11 +117,12 @@ void main()
     vec3 viewDir = normalize(viewPosition - FragPos);
     vec3 result = CalcPointLight(pointLight, normal, FragPos, viewDir);
     result += CalcDirectionalLight(dirLight, normal, viewDir);
+//     result += CalcSpotLight(spotLight, normal, FragPos, viewDir);
     FragColor = vec4(result, 1.0);
 
-    vec4 TempColor = texture2D(gSampler, TexCoords.xy) * vec4(result, 1.0);
-    //fog
-    float FogFactor = CalcExpFogFactor();
-    TempColor = mix(vec4(gFogColor, 1.0), TempColor, FogFactor);
-    FragColor = TempColor;
+//fog
+//     vec4 TempColor = texture2D(gSampler, TexCoords.xy) * vec4(result, 1.0);
+//     float FogFactor = CalcExpFogFactor();
+//     TempColor = mix(vec4(gFogColor, 1.0), TempColor, FogFactor);
+//     FragColor = TempColor;
 }

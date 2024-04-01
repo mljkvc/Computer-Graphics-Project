@@ -60,6 +60,21 @@ struct PointLight {
     float linear;
     float quadratic;
 };
+//
+//struct SpotLight {
+//    glm::vec3 position;
+//    glm::vec3 direction;
+//    float cutOff;
+//    float outerCutOff;
+//
+//    float constant;
+//    float linear;
+//    float quadratic;
+//
+//    glm::vec3 ambient;
+//    glm::vec3 diffuse;
+//    glm::vec3 specular;
+//};
 
 struct ProgramState {
     glm::vec3 clearColor = glm::vec3(0);
@@ -89,12 +104,19 @@ struct ProgramState {
     glm::vec3 drvo3Position = glm::vec3(3.0f, 0.8f, 7.0f);
     float drvo3Scale = 0.3f;
 
+    glm::vec3 pwrlPosition = glm::vec3(-64.8f, 0.8f, -5.0f);
+    float pwrlScale = 0.6f;
+
+    glm::vec3 lampPosition = glm::vec3(-60.0f, 0.8f, 3.0f);
+    float lampScale = 0.1f;
+
     glm::vec3 travaPosition = glm::vec3(-60.0f, 0.9f, 4.3f);
     glm::vec3 trava2Position = glm::vec3(-60.0f, 0.9f, -10.5f);
     float travaScale = 1.0f;
 
 
     PointLight pointLight;
+//    SpotLight spotLight;
     ProgramState()
             : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {}
 
@@ -136,6 +158,10 @@ void ProgramState::LoadFromFile(std::string filename) {
 ProgramState *programState;
 
 void DrawImGui(ProgramState *programState);
+
+glm::vec3 fogColor = glm::vec3(152.0f/256.0f, 152.0f/256.0f, 152.0f/256.0f);
+float fogEnd = 100.0f;
+float fogDensity = 0.66f;
 
 int main() {
     // glfw: initialize and configure
@@ -206,6 +232,7 @@ int main() {
     Shader ourShader("resources/shaders/2.model_lighting.vs", "resources/shaders/2.model_lighting.fs");
     Shader skyboxShader("resources/shaders/skybox.vs", "resources/shaders/skybox.fs");
     Shader textureShader("resources/shaders/texture.vs", "resources/shaders/texture.fs");
+//    Shader sijalicaShader("resources/shaders/sijalica.vs", "resources/shaders/sijalica.fs");
 
 
     float skyboxVertices[] = {
@@ -271,7 +298,8 @@ int main() {
     // load models
     // -----------
     stbi_set_flip_vertically_on_load(false);
-    Model put("resources/objects/road/road.obj");
+
+    Model put("resources/objects/okoloputnici/road/road.obj");
     put.SetShaderTextureNamePrefix("material.");
 
     Model nisan("resources/objects/Auti/nissan-240sx/SA5HLA5LO5H1RQJ42KKT685IS.obj");
@@ -288,28 +316,37 @@ int main() {
     Model drvo3("resources/objects/Priroda/drvo/scene.gltf");
     drvo3.SetShaderTextureNamePrefix("material.");
 
-    Model trava2("resources/objects/Priroda/green_field/scene.gltf");
-    trava2.SetShaderTextureNamePrefix("material.");
+    Model powerline("resources/objects/okoloputnici/powerline/scene.gltf");
+    powerline.SetShaderTextureNamePrefix("material.");
+
+    Model lamp("resources/objects/okoloputnici/street_lamp/scene.gltf");
+    lamp.SetShaderTextureNamePrefix("material.");
+
+    Model trava("resources/objects/Priroda/green_field/scene.gltf");
+    trava.SetShaderTextureNamePrefix("material.");
     //===============
 
 
-
     //svetlo iz kostura
-    PointLight& pointLight = programState->pointLight;
-    pointLight.position = glm::vec3(4.0f, 4.0, 0.0);
-    pointLight.ambient = glm::vec3(0.3);
-    pointLight.diffuse = glm::vec3(0.6, 0.6, 0.6);
-    pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
+//    PointLight& pointLight = programState->pointLight;
+//    pointLight.position = glm::vec3(0.0f, 2.0f, -0.25f);
+//    pointLight.ambient = glm::vec3(2.3);
+//    pointLight.diffuse = glm::vec3(3.0, 3.0, 3.0);
+//    pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
+//    pointLight.constant = 1.0f;
+//    pointLight.linear = 0.7f;
+//    pointLight.quadratic = 1.8f;
 
-    pointLight.constant = 1.0f;
-    pointLight.linear = 0.09f;
-    pointLight.quadratic = 0.032f;
-
+    //directional light
     DirLight dirLight;
     dirLight.direction = glm::vec3(-0.2f, -0.1f, -0.3f);
-    dirLight.ambient = glm::vec3(0.4f);
+    dirLight.ambient = glm::vec3(0.1f);
     dirLight.diffuse = glm::vec3(0.4f);
     dirLight.specular = glm::vec3(0.5f);
+
+
+//    SpotLight& spotLight = programState->spotLight;
+//    dirLight.SetExpSquaredFog(fogEnd, fogColor, fogDensity);???
 
 
     // plane VAO
@@ -385,15 +422,11 @@ int main() {
 
         // don't forget to enable shader before setting uniforms
         ourShader.use();
-        pointLight.position = glm::vec3(4.0 * cos(currentFrame), 4.0f, 4.0 * sin(currentFrame));
-        ourShader.setVec3("pointLight.position", pointLight.position);
-        ourShader.setVec3("pointLight.ambient", pointLight.ambient);
-        ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
-        ourShader.setVec3("pointLight.specular", pointLight.specular);
-        ourShader.setFloat("pointLight.constant", pointLight.constant);
-        ourShader.setFloat("pointLight.linear", pointLight.linear);
-        ourShader.setFloat("pointLight.quadratic", pointLight.quadratic);
 
+        //pointLight
+
+
+        //dir light
         ourShader.setVec3("dirLight.direction", dirLight.direction);
         ourShader.setVec3("dirLight.ambient", dirLight.ambient);
         ourShader.setVec3("dirLight.diffuse", dirLight.diffuse);
@@ -562,6 +595,69 @@ int main() {
         ourShader.setMat4("model", drvo3Model);
         drvo3.Draw(ourShader);
 
+
+        //render stubova
+        programState->pwrlPosition.x += speed * deltaTime;
+        if (programState->pwrlPosition.x >= -48.6f)
+            programState->pwrlPosition.x = -64.8f;
+
+        glm::mat4 powerlineModel = glm::mat4(1.0f);
+        for (int i = 0; i < 10; ++i) {
+            powerlineModel = glm::mat4(1.0f);
+            powerlineModel = glm::translate(powerlineModel,programState->pwrlPosition + glm::vec3(16.2f * float(i), 0.0f, 0.0f));
+            powerlineModel = glm::scale(powerlineModel, glm::vec3(programState->pwrlScale));
+            powerlineModel = glm::rotate(powerlineModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            powerlineModel = glm::rotate(powerlineModel, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+            ourShader.setMat4("model", powerlineModel);
+            powerline.Draw(ourShader);
+        }
+
+        //render svetla za lampe
+//        pointLight.position.x += speed * deltaTime;
+//        if (pointLight.position.x >= -30.0f)
+//            pointLight.position.x = -60.0f;
+
+
+        PointLight& pointLight = programState->pointLight;
+//        for (int i = 0; i < 10; ++i) {
+//            pointLight.position = glm::vec3(30.0f * float(i), 2.0f, -0.25f);
+        pointLight.position = glm::vec3(0.0f, 2.0f, -0.25f);
+        pointLight.ambient = glm::vec3(2.3);
+        pointLight.diffuse = glm::vec3(3.0, 3.0, 3.0);
+        pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
+        pointLight.constant = 1.0f;
+        pointLight.linear = 0.7f;
+        pointLight.quadratic = 1.8f;
+
+        ourShader.setVec3("pointLight.position", pointLight.position);
+        ourShader.setVec3("pointLight.ambient", pointLight.ambient);
+        ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
+        ourShader.setVec3("pointLight.specular", pointLight.specular);
+        ourShader.setFloat("pointLight.constant", pointLight.constant);
+        ourShader.setFloat("pointLight.linear", pointLight.linear);
+        ourShader.setFloat("pointLight.quadratic", pointLight.quadratic);
+
+
+//        }
+
+
+
+//        //render lampi
+//        programState->lampPosition.x += speed * deltaTime;
+//        if (programState->lampPosition.x >= -30.0f)
+//            programState->lampPosition.x = -60.0f;
+
+        glm::mat4 lampModel = glm::mat4(1.0f);
+        for (int i = 0; i < 10; ++i) {
+            lampModel = glm::mat4(1.0f);
+            lampModel = glm::translate(lampModel,programState->lampPosition + glm::vec3(30.0f * float(i), 0.0f, 0.0f));
+            lampModel = glm::scale(lampModel, glm::vec3(programState->lampScale));
+            lampModel = glm::rotate(lampModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", lampModel);
+            lamp.Draw(ourShader);
+        }
+
+
         //render trave------------------------------------------
 
         //pomeranje trave
@@ -581,7 +677,7 @@ int main() {
             travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
             travaModel = glm::rotate(travaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
             ourShader.setMat4("model", travaModel);
-            trava2.Draw(ourShader);
+            trava.Draw(ourShader);
         }
         //levo
         for (int i = 0; i < 16; ++i) {
@@ -590,7 +686,7 @@ int main() {
             travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
             travaModel = glm::rotate(travaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
             ourShader.setMat4("model", travaModel);
-            trava2.Draw(ourShader);
+            trava.Draw(ourShader);
         }
         glEnable(GL_CULL_FACE);
 
