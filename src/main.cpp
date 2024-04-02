@@ -107,7 +107,7 @@ struct ProgramState {
     glm::vec3 pwrlPosition = glm::vec3(-64.8f, 0.8f, -5.0f);
     float pwrlScale = 0.6f;
 
-    glm::vec3 lampPosition = glm::vec3(-60.0f, 0.8f, 3.0f);
+    glm::vec3 lampPosition = glm::vec3(-90.0f, 0.8f, 3.0f);
     float lampScale = 0.1f;
 
     glm::vec3 travaPosition = glm::vec3(-60.0f, 0.9f, 4.3f);
@@ -159,9 +159,6 @@ ProgramState *programState;
 
 void DrawImGui(ProgramState *programState);
 
-glm::vec3 fogColor = glm::vec3(152.0f/256.0f, 152.0f/256.0f, 152.0f/256.0f);
-float fogEnd = 100.0f;
-float fogDensity = 0.66f;
 
 int main() {
     // glfw: initialize and configure
@@ -231,9 +228,6 @@ int main() {
     // -------------------------
     Shader ourShader("resources/shaders/2.model_lighting.vs", "resources/shaders/2.model_lighting.fs");
     Shader skyboxShader("resources/shaders/skybox.vs", "resources/shaders/skybox.fs");
-    Shader textureShader("resources/shaders/texture.vs", "resources/shaders/texture.fs");
-//    Shader sijalicaShader("resources/shaders/sijalica.vs", "resources/shaders/sijalica.fs");
-
 
     float skyboxVertices[] = {
             // positions
@@ -284,13 +278,13 @@ int main() {
 //    pozicija trave
     float planeVertices[] = {
             // positions          // texture Coords
-            15.0f, 1.0f,  15.0f,  2.0f, 0.0f,
-            -15.0f, 1.0f,  15.0f,  0.0f, 0.0f,
-            -15.0f, 1.0f, -15.0f,  0.0f, 2.0f,
+            25.0f, 1.0f,  3.0f,  2.0f, 0.0f,
+            -25.0f, 1.0f,  3.0f,  0.0f, 0.0f,
+            -25.0f, 1.0f, -3.0f,  0.0f, 6.0f,
 
-            15.0f, 1.0f,  15.0f,  2.0f, 0.0f,
-            -15.0f, 1.0f, -15.0f,  0.0f, 2.0f,
-            15.0f, 1.0f, -15.0f,  2.0f, 2.0f
+            25.0f, 1.0f,  3.0f,  2.0f, 0.0f,
+            -25.0f, 1.0f, -3.0f,  0.0f, 6.0f,
+            25.0f, 1.0f, -3.0f,  2.0f, 6.0f
     };
 
 
@@ -327,26 +321,21 @@ int main() {
     //===============
 
 
-    //svetlo iz kostura
-//    PointLight& pointLight = programState->pointLight;
-//    pointLight.position = glm::vec3(0.0f, 2.0f, -0.25f);
-//    pointLight.ambient = glm::vec3(2.3);
-//    pointLight.diffuse = glm::vec3(3.0, 3.0, 3.0);
-//    pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
-//    pointLight.constant = 1.0f;
-//    pointLight.linear = 0.7f;
-//    pointLight.quadratic = 1.8f;
-
     //directional light
     DirLight dirLight;
-    dirLight.direction = glm::vec3(-0.2f, -0.1f, -0.3f);
-    dirLight.ambient = glm::vec3(0.1f);
+    dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
+    dirLight.ambient = glm::vec3(0.2f);
     dirLight.diffuse = glm::vec3(0.4f);
     dirLight.specular = glm::vec3(0.5f);
 
+    //fog
+    float fogDensity = 5.0f;
+    float fogStart = 20.0f;
+    float fogEnd = 60.0f;
+    glm::vec3 fogColor = glm::vec3(0.7f, 0.7f, 0.7f);
+
 
 //    SpotLight& spotLight = programState->spotLight;
-//    dirLight.SetExpSquaredFog(fogEnd, fogColor, fogDensity);???
 
 
     // plane VAO
@@ -379,21 +368,18 @@ int main() {
     stbi_set_flip_vertically_on_load(false);
     vector<std::string> faces
             {
-                    FileSystem::getPath("resources/textures/skybox/right.png"),
-                    FileSystem::getPath("resources/textures/skybox/left.png"),
-                    FileSystem::getPath("resources/textures/skybox/top.png"),
-                    FileSystem::getPath("resources/textures/skybox/bottom.png"),
-                    FileSystem::getPath("resources/textures/skybox/front.png"),
-                    FileSystem::getPath("resources/textures/skybox/back.png")
+                    FileSystem::getPath("resources/textures/skybox2/right.png"),
+                    FileSystem::getPath("resources/textures/skybox2/left.png"),
+                    FileSystem::getPath("resources/textures/skybox2/top.png"),
+                    FileSystem::getPath("resources/textures/skybox2/bottom.png"),
+                    FileSystem::getPath("resources/textures/skybox2/front.png"),
+                    FileSystem::getPath("resources/textures/skybox2/back.png")
             };
     unsigned int cubemapTexture = loadCubemap(faces);
 
     // shader configuration
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
-
-    textureShader.use();
-    textureShader.setInt("texture1", 0);
 
     // draw in wireframe
     //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
@@ -423,7 +409,11 @@ int main() {
         // don't forget to enable shader before setting uniforms
         ourShader.use();
 
-        //pointLight
+        //fog
+        ourShader.setFloat("fogDensity", fogDensity);
+        ourShader.setFloat("fogStart", fogStart);
+        ourShader.setFloat("fogEnd", fogEnd);
+        ourShader.setVec3("fogColor", fogColor);
 
 
         //dir light
@@ -431,6 +421,8 @@ int main() {
         ourShader.setVec3("dirLight.ambient", dirLight.ambient);
         ourShader.setVec3("dirLight.diffuse", dirLight.diffuse);
         ourShader.setVec3("dirLight.specular", dirLight.specular);
+
+
 
         ourShader.setVec3("viewPosition", programState->camera.Position);
         ourShader.setFloat("material.shininess", 32.0f);
@@ -465,8 +457,6 @@ int main() {
             programState->put6Position.x = -75.0f;
 
 
-
-
         float napred = 5.0f;
         float nazad = 3.0f;
 
@@ -476,10 +466,10 @@ int main() {
         if(!prekidac)
             programState->nisanPosition.x += nazad * deltaTime;
 
-        if(programState->nisanPosition.x <= -5.0f) {
+        if(programState->nisanPosition.x <= 0.0f) {
             prekidac = false;
         }
-        if(programState->nisanPosition.x >= 4.0f)
+        if(programState->nisanPosition.x >= 9.0f)
             prekidac = true;
 
         if(prekidac2)
@@ -612,40 +602,11 @@ int main() {
             powerline.Draw(ourShader);
         }
 
-        //render svetla za lampe
-//        pointLight.position.x += speed * deltaTime;
-//        if (pointLight.position.x >= -30.0f)
-//            pointLight.position.x = -60.0f;
-
-
-        PointLight& pointLight = programState->pointLight;
-//        for (int i = 0; i < 10; ++i) {
-//            pointLight.position = glm::vec3(30.0f * float(i), 2.0f, -0.25f);
-        pointLight.position = glm::vec3(0.0f, 2.0f, -0.25f);
-        pointLight.ambient = glm::vec3(2.3);
-        pointLight.diffuse = glm::vec3(3.0, 3.0, 3.0);
-        pointLight.specular = glm::vec3(1.0, 1.0, 1.0);
-        pointLight.constant = 1.0f;
-        pointLight.linear = 0.7f;
-        pointLight.quadratic = 1.8f;
-
-        ourShader.setVec3("pointLight.position", pointLight.position);
-        ourShader.setVec3("pointLight.ambient", pointLight.ambient);
-        ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
-        ourShader.setVec3("pointLight.specular", pointLight.specular);
-        ourShader.setFloat("pointLight.constant", pointLight.constant);
-        ourShader.setFloat("pointLight.linear", pointLight.linear);
-        ourShader.setFloat("pointLight.quadratic", pointLight.quadratic);
-
-
-//        }
-
-
 
 //        //render lampi
-//        programState->lampPosition.x += speed * deltaTime;
-//        if (programState->lampPosition.x >= -30.0f)
-//            programState->lampPosition.x = -60.0f;
+        programState->lampPosition.x += speed * deltaTime;
+        if (programState->lampPosition.x >= -60.0f)
+            programState->lampPosition.x = -90.0f;
 
         glm::mat4 lampModel = glm::mat4(1.0f);
         for (int i = 0; i < 10; ++i) {
@@ -656,6 +617,33 @@ int main() {
             ourShader.setMat4("model", lampModel);
             lamp.Draw(ourShader);
         }
+
+        std::vector<PointLight> pointLights;
+        for (int i = 0; i < 10; ++i) {
+            PointLight pointLight;
+//            pointLight.position = glm::vec3(-90.0 + 30.0f * float(i), 2.0f, -0.25f);
+//            pointLight.position = glm::vec3(0.0f, 2.0f, -0.25f);
+            pointLight.position = programState->lampPosition + glm::vec3(30.0f * float(i), 2.0f, -3.25f);
+            pointLight.ambient = glm::vec3(3.0);
+            pointLight.diffuse = glm::vec3(1.0, 0.7, 0.0);
+            pointLight.specular = glm::vec3(1.0, 0.7, 0.0);
+            pointLight.constant = 1.0f;
+            pointLight.linear = 0.7f;
+            pointLight.quadratic = 1.8f;
+            pointLights.push_back(pointLight);
+        }
+
+
+        for (size_t i = 0; i < pointLights.size(); ++i) {
+            ourShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLights[i].position);
+            ourShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", pointLights[i].ambient);
+            ourShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", pointLights[i].diffuse);
+            ourShader.setVec3("pointLights[" + std::to_string(i) + "].specular", pointLights[i].specular);
+            ourShader.setFloat("pointLights[" + std::to_string(i) + "].constant", pointLights[i].constant);
+            ourShader.setFloat("pointLights[" + std::to_string(i) + "].linear", pointLights[i].linear);
+            ourShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", pointLights[i].quadratic);
+        }
+
 
 
         //render trave------------------------------------------
@@ -711,16 +699,16 @@ int main() {
         //ovaj deo koda je pozajmljen privremeno od kolege sa github naloga bodgans55
         glDisable(GL_CULL_FACE);
         glm::mat4 model = glm::mat4(1.0f);
-        textureShader.use();
+        ourShader.use();
         projection = glm::perspective(glm::radians(programState->camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
         view = programState->camera.GetViewMatrix();
         model = glm::mat4(1.0f);
         model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
-        textureShader.setMat4("projection", projection);
-        textureShader.setMat4("view", view);
+        ourShader.setMat4("projection", projection);
+        ourShader.setMat4("view", view);
         glBindVertexArray(planeVAO);
         glBindTexture(GL_TEXTURE_2D, planeTexture);
-        textureShader.setMat4("model", model);
+        ourShader.setMat4("model", model);
         glDrawArrays(GL_TRIANGLES, 0, 6);
         glEnable(GL_CULL_FACE);
 

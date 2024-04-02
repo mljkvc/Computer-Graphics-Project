@@ -1,6 +1,8 @@
 #version 330 core
 out vec4 FragColor;
 
+#define MAX_POINT_LIGHTS 10
+
 struct PointLight {
     vec3 position;
 
@@ -45,20 +47,19 @@ struct Material {
 in vec2 TexCoords;
 in vec3 Normal;
 in vec3 FragPos;
-in vec3 WorldPos;
 
 
-uniform PointLight pointLight;
 uniform Material material;
 uniform DirLight dirLight;
+uniform PointLight pointLights[MAX_POINT_LIGHTS];
 // uniform SpotLight spotLight;
 
-// fog
-uniform sampler2D gSampler;
-uniform vec3 gCameraWorldPos;
-uniform float gExpFogDensity = 100.0;
-uniform float gFogEnd = -10.0;
-uniform vec3 gFogColor = vec3(0.0, 0.0, 0.0);
+// Fog
+uniform float fogDensity;
+uniform float fogStart;
+uniform float fogEnd;
+uniform vec3 fogColor;
+
 
 uniform vec3 viewPosition;
 // calculates the color when using a point light.
@@ -102,27 +103,25 @@ vec3 CalcDirectionalLight(DirLight light, vec3 normal, vec3 viewDir)
     return (ambient + diffuse + specular);
 }
 
-float CalcExpFogFactor()
-{
-    float CameraToPixelDist = length(WorldPos - gCameraWorldPos);
-    float DistRatio = 4.0 * CameraToPixelDist / gFogEnd;
-    float FogFactor = exp(-DistRatio * gExpFogDensity * DistRatio * gExpFogDensity);
-    return FogFactor;
-}
-
 
 void main()
 {
     vec3 normal = normalize(Normal);
     vec3 viewDir = normalize(viewPosition - FragPos);
-    vec3 result = CalcPointLight(pointLight, normal, FragPos, viewDir);
-    result += CalcDirectionalLight(dirLight, normal, viewDir);
+    vec3 result = CalcDirectionalLight(dirLight, normal, viewDir);
 //     result += CalcSpotLight(spotLight, normal, FragPos, viewDir);
-    FragColor = vec4(result, 1.0);
+    for (int i = 0; i < MAX_POINT_LIGHTS; ++i) {
+        result += CalcPointLight(pointLights[i], normal, FragPos, viewDir);
+    }
 
-//fog
-//     vec4 TempColor = texture2D(gSampler, TexCoords.xy) * vec4(result, 1.0);
-//     float FogFactor = CalcExpFogFactor();
-//     TempColor = mix(vec4(gFogColor, 1.0), TempColor, FogFactor);
-//     FragColor = TempColor;
+    // direfog
+    float distance = length(FragPos - viewPosition);
+    float fogFactor = (distance - fogStart) / (fogEnd - fogStart);
+    fogFactor = clamp(fogFactor, 0.0, 1.0);
+    vec3 finalColor = mix(result, fogColor, fogFactor);
+
+
+    FragColor = vec4(finalColor, 1.0);
+
+
 }
