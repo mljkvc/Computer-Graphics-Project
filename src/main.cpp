@@ -512,9 +512,8 @@ int main() {
         ourShader.setFloat("spotLight1.outerCutOff", spotLight1.outerCutOff);
 
 
-
         ourShader.setVec3("viewPosition", programState->camera.Position);
-        ourShader.setFloat("material.shininess", 32.0f);
+        ourShader.setFloat("material.shininess", 10.0f);
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom),
                                                 (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 100.0f);
@@ -740,8 +739,6 @@ int main() {
             ourShader.setFloat("spotLights[" + std::to_string(i) + "].outerCutOff", spotLights[i].outerCutOff);
             ourShader.setVec3("spotLights[" + std::to_string(i) + "].position", spotLights[i].position);
         }
-
-
 
         //render trave------------------------------------------
 
