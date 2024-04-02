@@ -60,27 +60,30 @@ struct PointLight {
     float linear;
     float quadratic;
 };
-//
-//struct SpotLight {
-//    glm::vec3 position;
-//    glm::vec3 direction;
-//    float cutOff;
-//    float outerCutOff;
-//
-//    float constant;
-//    float linear;
-//    float quadratic;
-//
-//    glm::vec3 ambient;
-//    glm::vec3 diffuse;
-//    glm::vec3 specular;
-//};
+
+struct SpotLight {
+    glm::vec3 position;
+    glm::vec3 direction;
+    float cutOff;
+    float outerCutOff;
+
+    float constant;
+    float linear;
+    float quadratic;
+
+    glm::vec3 ambient;
+    glm::vec3 diffuse;
+    glm::vec3 specular;
+};
 
 struct ProgramState {
     glm::vec3 clearColor = glm::vec3(0);
     bool ImGuiEnabled = false;
     Camera camera;
     bool CameraMouseMovementUpdateEnabled = true;
+    bool blicaj = false;
+    bool migavacL = false;
+    bool migavacD = false;
 
     float putScale = 1.0f;
     glm::vec3 put1Position = glm::vec3(60.0f, 0.0f, 0.0f);
@@ -116,7 +119,8 @@ struct ProgramState {
 
 
     PointLight pointLight;
-//    SpotLight spotLight;
+    SpotLight spotLight;
+    SpotLight spotLight1;
     ProgramState()
             : camera(glm::vec3(0.0f, 0.0f, 3.0f)) {}
 
@@ -288,7 +292,6 @@ int main() {
     };
 
 
-
     // load models
     // -----------
     stbi_set_flip_vertically_on_load(false);
@@ -328,14 +331,37 @@ int main() {
     dirLight.diffuse = glm::vec3(0.4f);
     dirLight.specular = glm::vec3(0.5f);
 
+    // Spotlight za farova auta
+    SpotLight& spotLight = programState->spotLight;
+    spotLight.ambient = glm::vec3(1.0, 1.0, 1.0);
+    spotLight.diffuse = glm::vec3(0.3, 0.3, 0.9);
+    spotLight.specular = glm::vec3(1.0, 1.0, 1.0);
+    spotLight.constant = 1.0f;
+    spotLight.linear = 0.09f;
+    spotLight.quadratic = 0.032f;
+    spotLight.cutOff = glm::cos(glm::radians(5.0f));
+    spotLight.outerCutOff = glm::cos(glm::radians(10.0f));
+
+    SpotLight& spotLight1 = programState->spotLight1;
+    spotLight1.ambient = glm::vec3(1.0, 1.0, 1.0);
+    spotLight1.diffuse = glm::vec3(0.3, 0.3, 0.9);
+    spotLight1.specular = glm::vec3(1.0, 1.0, 1.0);
+    spotLight1.constant = 1.0f;
+    spotLight1.linear = 0.09f;
+    spotLight1.quadratic = 0.032f;
+    spotLight1.cutOff = glm::cos(glm::radians(5.0f));
+    spotLight1.outerCutOff = glm::cos(glm::radians(10.0f));
+
+
+
+//ideja za blicanje
+
+
     //fog
     float fogDensity = 5.0f;
     float fogStart = 20.0f;
     float fogEnd = 60.0f;
     glm::vec3 fogColor = glm::vec3(0.7f, 0.7f, 0.7f);
-
-
-//    SpotLight& spotLight = programState->spotLight;
 
 
     // plane VAO
@@ -422,6 +448,69 @@ int main() {
         ourShader.setVec3("dirLight.diffuse", dirLight.diffuse);
         ourShader.setVec3("dirLight.specular", dirLight.specular);
 
+        //funkcionalnost dugih svetala
+        if(programState->blicaj){
+            spotLight.ambient = glm::vec3(5.0, 5.0, 5.0);
+            spotLight1.ambient = glm::vec3(5.0, 5.0, 5.0);
+        }
+        else{
+            spotLight.ambient = glm::vec3(1.0, 1.0, 1.0);
+            spotLight1.ambient = glm::vec3(1.0, 1.0, 1.0);
+        }
+
+        //funkcionalnost migavaca
+        if(programState->migavacL){
+            if(int(currentFrame) % 2) {
+                spotLight.diffuse = glm::vec3(15.0, 10.0, 0.0);
+                spotLight.specular = glm::vec3(15.0, 10.0, 0.0);
+            }
+            else{
+                spotLight.diffuse = glm::vec3(0.3, 0.3, 0.9);
+                spotLight.specular = glm::vec3(1.0, 1.0, 1.0);
+            }
+        }
+        else{
+            spotLight.diffuse = glm::vec3(0.3, 0.3, 0.9);
+            spotLight.specular = glm::vec3(1.0, 1.0, 1.0);
+        }
+
+        if(programState->migavacD){
+            if(int(currentFrame) % 2) {
+                spotLight1.diffuse = glm::vec3(15.0, 10.0, 0.0);
+                spotLight1.specular = glm::vec3(15.0, 10.0, 0.0);
+            }
+            else{
+                spotLight1.diffuse = glm::vec3(0.3, 0.3, 0.9);
+                spotLight1.specular = glm::vec3(1.0, 1.0, 1.0);
+            }
+        }
+        else{
+            spotLight1.diffuse = glm::vec3(0.3, 0.3, 0.9);
+            spotLight1.specular = glm::vec3(1.0, 1.0, 1.0);
+        }
+
+
+        // Spotlight
+        ourShader.setVec3("spotLight.direction", -1.0f, -0.01f, 0.0f);
+        ourShader.setVec3("spotLight.ambient", spotLight.ambient);
+        ourShader.setVec3("spotLight.diffuse", spotLight.diffuse);
+        ourShader.setVec3("spotLight.specular", spotLight.specular);
+        ourShader.setFloat("spotLight.constant", spotLight.constant);
+        ourShader.setFloat("spotLight.linear", spotLight.linear);
+        ourShader.setFloat("spotLight.quadratic", spotLight.quadratic);
+        ourShader.setFloat("spotLight.cutOff", spotLight.cutOff);
+        ourShader.setFloat("spotLight.outerCutOff", spotLight.outerCutOff);
+
+        ourShader.setVec3("spotLight1.direction", -1.0f, -0.01f, 0.0f);
+        ourShader.setVec3("spotLight1.ambient", spotLight1.ambient);
+        ourShader.setVec3("spotLight1.diffuse", spotLight1.diffuse);
+        ourShader.setVec3("spotLight1.specular", spotLight1.specular);
+        ourShader.setFloat("spotLight1.constant", spotLight1.constant);
+        ourShader.setFloat("spotLight1.linear", spotLight1.linear);
+        ourShader.setFloat("spotLight1.quadratic", spotLight1.quadratic);
+        ourShader.setFloat("spotLight1.cutOff", spotLight1.cutOff);
+        ourShader.setFloat("spotLight1.outerCutOff", spotLight1.outerCutOff);
+
 
 
         ourShader.setVec3("viewPosition", programState->camera.Position);
@@ -460,7 +549,6 @@ int main() {
         float napred = 5.0f;
         float nazad = 3.0f;
 
-        programState->nisanPosition3.z = sin(currentFrame * 1.2f)/2;
         if(prekidac)
             programState->nisanPosition.x -= napred * deltaTime;
         if(!prekidac)
@@ -483,6 +571,8 @@ int main() {
         if(programState->nisanPosition2.x >= 10.0f)
             prekidac2 = true;
 
+        programState->nisanPosition3.z = sin(currentFrame * 1.2f)/2;
+
         if(prekidac3)
             programState->nisanPosition3.x -= napred * deltaTime;
         if(!prekidac3)
@@ -494,6 +584,9 @@ int main() {
         if(programState->nisanPosition3.x >= -1.0f)
             prekidac3 = true;
 
+
+        ourShader.setVec3("spotLight.position", programState->nisanPosition3 + glm::vec3(-1.3,-0.03,0.4));
+        ourShader.setVec3("spotLight1.position", programState->nisanPosition3 + glm::vec3(-1.3,-0.03,-0.4));
 
 
 
@@ -603,7 +696,7 @@ int main() {
         }
 
 
-//        //render lampi
+        //render lampi
         programState->lampPosition.x += speed * deltaTime;
         if (programState->lampPosition.x >= -60.0f)
             programState->lampPosition.x = -90.0f;
@@ -618,30 +711,34 @@ int main() {
             lamp.Draw(ourShader);
         }
 
-        std::vector<PointLight> pointLights;
+
+        //spotlight za lampu
+        std::vector<SpotLight> spotLights;
         for (int i = 0; i < 10; ++i) {
-            PointLight pointLight;
-//            pointLight.position = glm::vec3(-90.0 + 30.0f * float(i), 2.0f, -0.25f);
-//            pointLight.position = glm::vec3(0.0f, 2.0f, -0.25f);
-            pointLight.position = programState->lampPosition + glm::vec3(30.0f * float(i), 2.0f, -3.25f);
-            pointLight.ambient = glm::vec3(3.0);
-            pointLight.diffuse = glm::vec3(1.0, 0.7, 0.0);
-            pointLight.specular = glm::vec3(1.0, 0.7, 0.0);
-            pointLight.constant = 1.0f;
-            pointLight.linear = 0.7f;
-            pointLight.quadratic = 1.8f;
-            pointLights.push_back(pointLight);
+            SpotLight LampLight;
+            LampLight.position = programState->lampPosition + glm::vec3(30.0f * float(i), 6.8f, -3.4f);
+            LampLight.ambient = glm::vec3(1.0, 1.0, 1.0);
+            LampLight.diffuse = glm::vec3(1.0, 0.7, 0.0);
+            LampLight.specular = glm::vec3(1.0, 0.7, 0.0);
+            LampLight.constant = 1.0f;
+            LampLight.linear = 0.09f;
+            LampLight.quadratic = 0.032f;
+            LampLight.cutOff = glm::cos(glm::radians(10.0f));
+            LampLight.outerCutOff = glm::cos(glm::radians(25.0f));
+            spotLights.push_back(LampLight);
         }
 
-
-        for (size_t i = 0; i < pointLights.size(); ++i) {
-            ourShader.setVec3("pointLights[" + std::to_string(i) + "].position", pointLights[i].position);
-            ourShader.setVec3("pointLights[" + std::to_string(i) + "].ambient", pointLights[i].ambient);
-            ourShader.setVec3("pointLights[" + std::to_string(i) + "].diffuse", pointLights[i].diffuse);
-            ourShader.setVec3("pointLights[" + std::to_string(i) + "].specular", pointLights[i].specular);
-            ourShader.setFloat("pointLights[" + std::to_string(i) + "].constant", pointLights[i].constant);
-            ourShader.setFloat("pointLights[" + std::to_string(i) + "].linear", pointLights[i].linear);
-            ourShader.setFloat("pointLights[" + std::to_string(i) + "].quadratic", pointLights[i].quadratic);
+        for (size_t i = 0; i < spotLights.size(); ++i) {
+            ourShader.setVec3("spotLights[" + std::to_string(i) + "].direction", 0.0f, -1.0f, 0.0f);
+            ourShader.setVec3("spotLights[" + std::to_string(i) + "].ambient", spotLights[i].ambient);
+            ourShader.setVec3("spotLights[" + std::to_string(i) + "].diffuse", spotLights[i].diffuse);
+            ourShader.setVec3("spotLights[" + std::to_string(i) + "].specular", spotLights[i].specular);
+            ourShader.setFloat("spotLights[" + std::to_string(i) + "].constant", spotLights[i].constant);
+            ourShader.setFloat("spotLights[" + std::to_string(i) + "].linear", spotLights[i].linear);
+            ourShader.setFloat("spotLights[" + std::to_string(i) + "].quadratic", spotLights[i].quadratic);
+            ourShader.setFloat("spotLights[" + std::to_string(i) + "].cutOff", spotLights[i].cutOff);
+            ourShader.setFloat("spotLights[" + std::to_string(i) + "].outerCutOff", spotLights[i].outerCutOff);
+            ourShader.setVec3("spotLights[" + std::to_string(i) + "].position", spotLights[i].position);
         }
 
 
@@ -833,6 +930,18 @@ void DrawImGui(ProgramState *programState) {
 
 
 void key_callback(GLFWwindow *window, int key, int scancode, int action, int mods) {
+    if(key == GLFW_KEY_B && action == GLFW_PRESS) {
+        programState->blicaj = !programState->blicaj;
+    }
+
+    if(key == GLFW_KEY_LEFT && action == GLFW_PRESS) {
+        programState->migavacL = !programState->migavacL;
+    }
+
+    if(key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
+        programState->migavacD = !programState->migavacD;
+    }
+
     if (key == GLFW_KEY_F1 && action == GLFW_PRESS) {
         programState->ImGuiEnabled = !programState->ImGuiEnabled;
         if (programState->ImGuiEnabled) {
@@ -843,8 +952,6 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
         }
     }
 }
-
-
 
 //skybox
 unsigned int loadCubemap(vector<std::string> faces){
@@ -872,8 +979,6 @@ unsigned int loadCubemap(vector<std::string> faces){
 
     return textureID;
 }
-
-
 
 unsigned int loadTexture(char const * path) {
     unsigned int textureID;
