@@ -1,7 +1,10 @@
 # ROLLERS
-Computer Graphics project witch includes a cinematic scene of old japanese cars rolling down the street  
+Computer Graphics project witch includes a cinematic scene of old japanese drift cars rolling down the street  
 
 # Instructions
+
+`M` to turn on/off movement of the scene
+
 `B` to turn on/off high beams
 
 `Left arrow` to turn on/off left indicator

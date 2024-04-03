@@ -874,32 +874,32 @@ void DrawImGui(ProgramState *programState) {
     ImGui_ImplGlfw_NewFrame();
     ImGui::NewFrame();
 
-    //nepotrebno
-/*
-    {
-        static float f = 0.0f;
-        ImGui::Begin("Hello window");
-        ImGui::Text("Hello text");
-        ImGui::SliderFloat("Float slider", &f, 0.0, 1.0);
-        ImGui::ColorEdit3("Background color", (float *) &programState->clearColor);
-        ImGui::DragFloat3("Backpack position", (float*)&programState->backpackPosition);
-        ImGui::DragFloat("Backpack scale", &programState->backpackScale, 0.05, 0.1, 4.0);
+    //fps info
+    ImVec4 textColor;
+    float fps = ImGui::GetIO().Framerate;
+    if (fps > 55.0f)
+        textColor = ImVec4(0.0f, 1.0f, 0.0f, 1.0f);
+    else if (fps >= 40.0f && fps <= 55.0f)
+        textColor = ImVec4(1.0f, 1.0f, 0.0f, 1.0f);
+    else
+        textColor = ImVec4(1.0f, 0.0f, 0.0f, 1.0f);
 
-        ImGui::DragFloat("pointLight.constant", &programState->pointLight.constant, 0.05, 0.0, 1.0);
-        ImGui::DragFloat("pointLight.linear", &programState->pointLight.linear, 0.05, 0.0, 1.0);
-        ImGui::DragFloat("pointLight.quadratic", &programState->pointLight.quadratic, 0.05, 0.0, 1.0);
-        ImGui::End();
-    }
-*/
-    {
-        ImGui::Begin("Camera info");
-        const Camera& c = programState->camera;
-        ImGui::Text("Camera position: (%f, %f, %f)", c.Position.x, c.Position.y, c.Position.z);
-        ImGui::Text("(Yaw, Pitch): (%f, %f)", c.Yaw, c.Pitch);
-        ImGui::Text("Camera front: (%f, %f, %f)", c.Front.x, c.Front.y, c.Front.z);
-        ImGui::Checkbox("Camera mouse update", &programState->CameraMouseMovementUpdateEnabled);
-        ImGui::End();
-    }
+    ImGuiIO& io = ImGui::GetIO();
+    ImVec2 window_pos = ImVec2(io.DisplaySize.x - 85, 5);
+    ImGui::SetNextWindowPos(window_pos);
+    ImGui::SetNextWindowSize(ImVec2(0, 0));
+    ImGui::Begin("FPS", nullptr, ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBackground);
+    ImGui::TextColored(textColor, "FPS: %.1f", fps);
+    ImGui::End();
+
+    //camera info
+    ImGui::Begin("Camera info");
+    const Camera& c = programState->camera;
+    ImGui::Text("Camera position: (%f, %f, %f)", c.Position.x, c.Position.y, c.Position.z);
+    ImGui::Text("(Yaw, Pitch): (%f, %f)", c.Yaw, c.Pitch);
+    ImGui::Text("Camera front: (%f, %f, %f)", c.Front.x, c.Front.y, c.Front.z);
+    ImGui::Checkbox("Camera mouse update", &programState->CameraMouseMovementUpdateEnabled);
+    ImGui::End();
 
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
