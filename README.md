@@ -1,12 +1,17 @@
-# project_base
-Prazan projekat sa pratećim bibliotekama koje koristimo na času. 
+# ROLLERS
+Computer Graphics project witch includes a cinematic scene of old japanese cars rolling down the street  
 
-# Uputstvo
-1. `git clone https://github.com/matf-racunarska-grafika/project_base.git`
-2. CLion -> Open -> path/to/my/project_base
-3. Main se nalazi u src/main.cpp
-4. Cpp fajlovi idu u src folder
-5. Zaglavlja (h i hpp) fajlovi idu u include
-6. Šejderi idu u folder shaders. `Vertex shader` ima ekstenziju `.vs`, `fragment shader` ima ekstenziju `.fs`
-7. ALT+SHIFT+F10 -> project_base -> run
-# Computer-Graphics-Project
+# Instructions
+`B` to turn on/off high beams
+
+`Left arrow` to turn on/off left indicator
+
+`Right arrow` to turn on/off left indicator
+
+`WASD` to move left, right, front and back
+
+`Space/Ctrl` to move up and down
+
+
+
+**This project was made using OpenGL**
