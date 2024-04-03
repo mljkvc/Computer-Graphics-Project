@@ -84,14 +84,10 @@ struct ProgramState {
     bool blicaj = false;
     bool migavacL = false;
     bool migavacD = false;
+    bool move = false;
 
+    glm::vec3 putPosition = glm::vec3(-80.0f, 0.0f, 0.0f);
     float putScale = 1.0f;
-    glm::vec3 put1Position = glm::vec3(60.0f, 0.0f, 0.0f);
-    glm::vec3 put2Position = glm::vec3(30.0f, 0.0f, 0.0f);
-    glm::vec3 put3Position = glm::vec3(0.0f, 0.0f, 0.0f);
-    glm::vec3 put4Position = glm::vec3(-30.0f, 0.0f, 0.0f);
-    glm::vec3 put5Position = glm::vec3(-60.0f, 0.0f, 0.0f);
-    glm::vec3 put6Position = glm::vec3(-90.0f, 0.0f, 0.0f);
 
     glm::vec3 nisanPosition = glm::vec3(5.0f, 1.65f, 0.7f);
     float nisanScale = 1.5f;
@@ -117,6 +113,8 @@ struct ProgramState {
     glm::vec3 trava2Position = glm::vec3(-60.0f, 0.9f, -10.5f);
     float travaScale = 1.0f;
 
+    glm::vec3 rocksPosition = glm::vec3(-60.0f, 1.04f, -3.0f);
+    float rocksScale = 0.8f;
 
     PointLight pointLight;
     SpotLight spotLight;
@@ -321,6 +319,10 @@ int main() {
 
     Model trava("resources/objects/Priroda/green_field/scene.gltf");
     trava.SetShaderTextureNamePrefix("material.");
+
+    Model rocks("resources/objects/Priroda/rocks/kamencici.obj");
+    rocks.SetShaderTextureNamePrefix("material.");
+
     //===============
 
 
@@ -521,68 +523,46 @@ int main() {
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
 
+        if(programState->move) {
 
-        float speed = 7.0f; // brzina puta
-        programState->put1Position.x += speed * deltaTime;
-        programState->put2Position.x += speed * deltaTime;
-        programState->put3Position.x += speed * deltaTime;
-        programState->put4Position.x += speed * deltaTime;
-        programState->put5Position.x += speed * deltaTime;
-        programState->put6Position.x += speed * deltaTime;
+            float napred = 5.0f;
+            float nazad = 3.0f;
 
-//        obrce put nazad da ide u beskonacnost
-        if (programState->put1Position.x >= 75.0f)
-            programState->put1Position.x = -75.0f;
-        if (programState->put2Position.x >= 75.0f)
-            programState->put2Position.x = -75.0f;
-        if (programState->put3Position.x >= 75.0f)
-            programState->put3Position.x = -75.0f;
-        if (programState->put4Position.x >= 75.0f)
-            programState->put4Position.x = -75.0f;
-        if (programState->put5Position.x >= 75.0f)
-            programState->put5Position.x = -75.0f;
-        if (programState->put6Position.x >= 75.0f)
-            programState->put6Position.x = -75.0f;
+            if (prekidac)
+                programState->nisanPosition.x -= napred * deltaTime;
+            if (!prekidac)
+                programState->nisanPosition.x += nazad * deltaTime;
 
+            if (programState->nisanPosition.x <= 0.0f) {
+                prekidac = false;
+            }
+            if (programState->nisanPosition.x >= 9.0f)
+                prekidac = true;
 
-        float napred = 5.0f;
-        float nazad = 3.0f;
+            if (prekidac2)
+                programState->nisanPosition2.x -= napred * deltaTime;
+            if (!prekidac2)
+                programState->nisanPosition2.x += nazad * deltaTime;
 
-        if(prekidac)
-            programState->nisanPosition.x -= napred * deltaTime;
-        if(!prekidac)
-            programState->nisanPosition.x += nazad * deltaTime;
+            if (programState->nisanPosition2.x <= 2.0f) {
+                prekidac2 = false;
+            }
+            if (programState->nisanPosition2.x >= 10.0f)
+                prekidac2 = true;
 
-        if(programState->nisanPosition.x <= 0.0f) {
-            prekidac = false;
+            programState->nisanPosition3.z = sin(currentFrame * 1.2f) / 2;
+
+            if (prekidac3)
+                programState->nisanPosition3.x -= napred * deltaTime;
+            if (!prekidac3)
+                programState->nisanPosition3.x += nazad * deltaTime;
+
+            if (programState->nisanPosition3.x <= -10.0f) {
+                prekidac3 = false;
+            }
+            if (programState->nisanPosition3.x >= -1.0f)
+                prekidac3 = true;
         }
-        if(programState->nisanPosition.x >= 9.0f)
-            prekidac = true;
-
-        if(prekidac2)
-            programState->nisanPosition2.x -= napred * deltaTime;
-        if(!prekidac2)
-            programState->nisanPosition2.x += nazad * deltaTime;
-
-        if(programState->nisanPosition2.x <= 2.0f) {
-            prekidac2 = false;
-        }
-        if(programState->nisanPosition2.x >= 10.0f)
-            prekidac2 = true;
-
-        programState->nisanPosition3.z = sin(currentFrame * 1.2f)/2;
-
-        if(prekidac3)
-            programState->nisanPosition3.x -= napred * deltaTime;
-        if(!prekidac3)
-            programState->nisanPosition3.x += nazad * deltaTime;
-
-        if(programState->nisanPosition3.x <= -10.0f) {
-            prekidac3 = false;
-        }
-        if(programState->nisanPosition3.x >= -1.0f)
-            prekidac3 = true;
-
 
         ourShader.setVec3("spotLight.position", programState->nisanPosition3 + glm::vec3(-1.3,-0.03,0.4));
         ourShader.setVec3("spotLight1.position", programState->nisanPosition3 + glm::vec3(-1.3,-0.03,-0.4));
@@ -590,42 +570,22 @@ int main() {
 
 
         // renderovanje puta
-        glm::mat4 put1model = glm::mat4(1.0f);
-        put1model = glm::translate(put1model,programState->put1Position);
-        put1model = glm::scale(put1model, glm::vec3(programState->putScale));
-        ourShader.setMat4("model", put1model);
-        put.Draw(ourShader);
-        //2 deo
-        glm::mat4 put2model = glm::mat4(1.0f);
-        put2model = glm::translate(put2model,programState->put2Position);
-        put2model = glm::scale(put2model, glm::vec3(programState->putScale));
-        ourShader.setMat4("model", put2model);
-        put.Draw(ourShader);
-        //3 deo
-        glm::mat4 put3model = glm::mat4(1.0f);
-        put3model = glm::translate(put3model,programState->put3Position);
-        put3model = glm::scale(put3model, glm::vec3(programState->putScale));
-        ourShader.setMat4("model", put3model);
-        put.Draw(ourShader);
-        //4 deo
-        glm::mat4 put4model = glm::mat4(1.0f);
-        put4model = glm::translate(put4model,programState->put4Position);
-        put4model = glm::scale(put4model, glm::vec3(programState->putScale));
-        ourShader.setMat4("model", put4model);
-        put.Draw(ourShader);
-        //5 deo
-        glm::mat4 put5model = glm::mat4(1.0f);
-        put5model = glm::translate(put5model,programState->put5Position);
-        put5model = glm::scale(put5model, glm::vec3(programState->putScale));
-        ourShader.setMat4("model", put5model);
-        put.Draw(ourShader);
-        //6 deo
-        glm::mat4 put6model = glm::mat4(1.0f);
-        put6model = glm::translate(put6model,programState->put6Position);
-        put6model = glm::scale(put6model, glm::vec3(programState->putScale));
-        ourShader.setMat4("model", put6model);
-        put.Draw(ourShader);
+        float speed = 7.0f; // brzina puta
+        if(programState->move)
+            programState->putPosition.x += speed * deltaTime;
 
+        //funkcionalnost puta
+        if (programState->putPosition.x >= -49.0f)
+            programState->putPosition.x = -80.0f;
+
+        glm::mat4 putModel = glm::mat4(1.0f);
+        for (int i = 0; i < 6; ++i) {
+            putModel = glm::mat4(1.0f);
+            putModel = glm::translate(putModel, programState->putPosition + glm::vec3(31.0f * float(i), 0.0f, 0.0f));
+            putModel = glm::scale(putModel, glm::vec3(programState->putScale));
+            ourShader.setMat4("model", putModel);
+            put.Draw(ourShader);
+        }
 
 
         //renderovanje nisana
@@ -679,7 +639,8 @@ int main() {
 
 
         //render stubova
-        programState->pwrlPosition.x += speed * deltaTime;
+        if(programState->move)
+            programState->pwrlPosition.x += speed * deltaTime;
         if (programState->pwrlPosition.x >= -48.6f)
             programState->pwrlPosition.x = -64.8f;
 
@@ -696,7 +657,8 @@ int main() {
 
 
         //render lampi
-        programState->lampPosition.x += speed * deltaTime;
+        if(programState->move)
+            programState->lampPosition.x += speed * deltaTime;
         if (programState->lampPosition.x >= -60.0f)
             programState->lampPosition.x = -90.0f;
 
@@ -743,8 +705,10 @@ int main() {
         //render trave------------------------------------------
 
         //pomeranje trave
-        programState->travaPosition.x += speed * deltaTime;
-        programState->trava2Position.x += speed * deltaTime;
+        if(programState->move) {
+            programState->travaPosition.x += speed * deltaTime;
+            programState->trava2Position.x += speed * deltaTime;
+        }
         if (programState->travaPosition.x >= -40.0f)
             programState->travaPosition.x = -60.0f;
         if (programState->trava2Position.x >= -40.0f)
@@ -769,6 +733,23 @@ int main() {
             travaModel = glm::rotate(travaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
             ourShader.setMat4("model", travaModel);
             trava.Draw(ourShader);
+        }
+
+
+//        render kamencica
+        if(programState->move)
+            programState->trava2Position.x += speed * deltaTime;
+        if (programState->travaPosition.x >= -40.0f)
+            programState->travaPosition.x = -60.0f;
+
+        glm::mat4 rocksModel = glm::mat4(1.0f);
+        for (int i = 0; i < 10; ++i) {
+            rocksModel = glm::mat4(1.0f);
+            rocksModel = glm::translate(rocksModel,programState->rocksPosition + glm::vec3(10.0f * float(i), 0.0f, 0.0f));
+            rocksModel = glm::scale(rocksModel, glm::vec3(programState->rocksScale));
+            rocksModel = glm::rotate(rocksModel, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            ourShader.setMat4("model", rocksModel);
+            rocks.Draw(ourShader);
         }
         glEnable(GL_CULL_FACE);
 
@@ -937,6 +918,10 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
     if(key == GLFW_KEY_RIGHT && action == GLFW_PRESS) {
         programState->migavacD = !programState->migavacD;
+    }
+
+    if(key == GLFW_KEY_M && action == GLFW_PRESS) {
+        programState->move = !programState->move;
     }
 
     if (key == GLFW_KEY_F1 && action == GLFW_PRESS) {
