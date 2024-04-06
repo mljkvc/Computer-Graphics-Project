@@ -119,7 +119,8 @@ struct ProgramState {
     glm::vec3 planinaPosition = glm::vec3(80.0f, 0.0f, 0.0f);
     float planinaScale = 30.0f;
 
-    glm::vec3 terrainPosition = glm::vec3(-60.0f, 0.0f, 0.0f);
+    glm::vec3 terrainPosition = glm::vec3(0.0f, 3.8f, 0.0f);
+    glm::vec3 terrain1Position = glm::vec3(-214.0f, 3.8f, 0.0f);
     float terrainScale = 30.0f;
 
     PointLight pointLight;
@@ -180,9 +181,12 @@ int main() {
     glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 #endif
 
+    //msaa
+    glfwWindowHint(GLFW_SAMPLES, 4);
+
     // glfw window creation
     // --------------------
-    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "LearnOpenGL", NULL, NULL);
+    GLFWwindow *window = glfwCreateWindow(SCR_WIDTH, SCR_HEIGHT, "Rollers", NULL, NULL);
     if (window == NULL) {
         std::cout << "Failed to create GLFW window" << std::endl;
         glfwTerminate();
@@ -225,7 +229,7 @@ int main() {
     // configure global opengl state
     // -----------------------------
     glEnable(GL_DEPTH_TEST);
-
+    glEnable(GL_MULTISAMPLE);
 
     //face culling
     glEnable(GL_CULL_FACE);
@@ -286,13 +290,13 @@ int main() {
 //    pozicija trave
     float planeVertices[] = {
             // positions          // texture Coords
-            25.0f, 1.0f,  3.0f,  2.0f, 0.0f,
-            -25.0f, 1.0f,  3.0f,  0.0f, 0.0f,
-            -25.0f, 1.0f, -3.0f,  0.0f, 6.0f,
+            25.0f, 1.0f,  2.35f,  2.0f, 0.0f,
+            -25.0f, 1.0f,  2.35f,  0.0f, 0.0f,
+            -25.0f, 1.0f, -2.6f,  0.0f, 6.0f,
 
-            25.0f, 1.0f,  3.0f,  2.0f, 0.0f,
-            -25.0f, 1.0f, -3.0f,  0.0f, 6.0f,
-            25.0f, 1.0f, -3.0f,  2.0f, 6.0f
+            25.0f, 1.0f,  2.35f,  2.0f, 0.0f,
+            -25.0f, 1.0f, -2.6f,  0.0f, 6.0f,
+            25.0f, 1.0f, -2.6f,  2.0f, 6.0f
     };
 
 
@@ -775,15 +779,30 @@ int main() {
         ourShader.setMat4("model", planinaModel);
         planina.Draw(ourShader);
 
+        //terrain model
+        if(programState->move) {
+            programState->terrainPosition.x += speed * deltaTime;
+            programState->terrain1Position.x += speed * deltaTime;
+        }
+        if (programState->terrainPosition.x >= 214.0f)
+            programState->terrainPosition.x = -214.0f;
+        if (programState->terrain1Position.x >= 214.0f)
+            programState->terrain1Position.x = -214.0f;
 
         glm::mat4 terrainModel = glm::mat4(1.0f);
         terrainModel = glm::translate(terrainModel,programState->terrainPosition);
         terrainModel = glm::scale(terrainModel, glm::vec3(programState->terrainScale));
         terrainModel = glm::rotate(terrainModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-//        terrainModel = glm::rotate(terrainModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-//        terrainModel = glm::rotate(terrainModel, glm::radians(5.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         ourShader.setMat4("model", terrainModel);
         terrain.Draw(ourShader);
+
+        glm::mat4 terrain1Model = glm::mat4(1.0f);
+        terrain1Model = glm::translate(terrain1Model,programState->terrain1Position);
+        terrain1Model = glm::scale(terrain1Model, glm::vec3(programState->terrainScale));
+        terrain1Model = glm::rotate(terrain1Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", terrain1Model);
+        terrain.Draw(ourShader);
+
 
         glEnable(GL_CULL_FACE);
 
