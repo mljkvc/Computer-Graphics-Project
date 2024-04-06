@@ -116,6 +116,12 @@ struct ProgramState {
     glm::vec3 rocksPosition = glm::vec3(-60.0f, 1.04f, -3.0f);
     float rocksScale = 0.8f;
 
+    glm::vec3 planinaPosition = glm::vec3(80.0f, 0.0f, 0.0f);
+    float planinaScale = 30.0f;
+
+    glm::vec3 terrainPosition = glm::vec3(-60.0f, 0.0f, 0.0f);
+    float terrainScale = 30.0f;
+
     PointLight pointLight;
     SpotLight spotLight;
     SpotLight spotLight1;
@@ -322,6 +328,13 @@ int main() {
 
     Model rocks("resources/objects/Priroda/rocks/kamencici.obj");
     rocks.SetShaderTextureNamePrefix("material.");
+
+    Model planina("resources/objects/Priroda/snowy_mountain_-_terrain/scene.gltf");
+    planina.SetShaderTextureNamePrefix("material.");
+
+    Model terrain("resources/objects/Priroda/terrain/scene.gltf");
+    terrain.SetShaderTextureNamePrefix("material.");
+
 
     //===============
 
@@ -737,22 +750,42 @@ int main() {
 
 
 //        render kamencica
-        if(programState->move)
-            programState->trava2Position.x += speed * deltaTime;
-        if (programState->travaPosition.x >= -40.0f)
-            programState->travaPosition.x = -60.0f;
+//        if(programState->move)
+//            programState->trava2Position.x += speed * deltaTime;
+//        if (programState->travaPosition.x >= -40.0f)
+//            programState->travaPosition.x = -60.0f;
+//
+//        glm::mat4 rocksModel = glm::mat4(1.0f);
+//        for (int i = 0; i < 10; ++i) {
+//            rocksModel = glm::mat4(1.0f);
+//            rocksModel = glm::translate(rocksModel,programState->rocksPosition + glm::vec3(10.0f * float(i), 0.0f, 0.0f));
+//            rocksModel = glm::scale(rocksModel, glm::vec3(programState->rocksScale));
+//            rocksModel = glm::rotate(rocksModel, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+//            ourShader.setMat4("model", rocksModel);
+//            rocks.Draw(ourShader);
+//        }
 
-        glm::mat4 rocksModel = glm::mat4(1.0f);
-        for (int i = 0; i < 10; ++i) {
-            rocksModel = glm::mat4(1.0f);
-            rocksModel = glm::translate(rocksModel,programState->rocksPosition + glm::vec3(10.0f * float(i), 0.0f, 0.0f));
-            rocksModel = glm::scale(rocksModel, glm::vec3(programState->rocksScale));
-            rocksModel = glm::rotate(rocksModel, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-            ourShader.setMat4("model", rocksModel);
-            rocks.Draw(ourShader);
-        }
+
+        glm::mat4 planinaModel = glm::mat4(1.0f);
+        planinaModel = glm::translate(planinaModel,programState->planinaPosition);
+        planinaModel = glm::scale(planinaModel, glm::vec3(programState->planinaScale));
+        planinaModel = glm::rotate(planinaModel, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        planinaModel = glm::rotate(planinaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        planinaModel = glm::rotate(planinaModel, glm::radians(5.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", planinaModel);
+        planina.Draw(ourShader);
+
+
+        glm::mat4 terrainModel = glm::mat4(1.0f);
+        terrainModel = glm::translate(terrainModel,programState->terrainPosition);
+        terrainModel = glm::scale(terrainModel, glm::vec3(programState->terrainScale));
+        terrainModel = glm::rotate(terrainModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+//        terrainModel = glm::rotate(terrainModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+//        terrainModel = glm::rotate(terrainModel, glm::radians(5.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", terrainModel);
+        terrain.Draw(ourShader);
+
         glEnable(GL_CULL_FACE);
-
 
 
         // draw skybox
