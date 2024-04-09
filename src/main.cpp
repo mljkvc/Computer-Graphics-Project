@@ -98,11 +98,15 @@ struct ProgramState {
     float nisanScale3 = 0.7f;
 
     glm::vec3 drvo1Position = glm::vec3(11.0f, 0.8f, 5.0f);
-    float drvo1Scale = 0.01f;
+    float drvo1Scale = 0.015f;
     glm::vec3 drvo2Position = glm::vec3(7.0f, 0.8f, 5.0f);
-    float drvo2Scale = 0.01f;
+    float drvo2Scale = 0.017f;
     glm::vec3 drvo3Position = glm::vec3(3.0f, 0.8f, 7.0f);
     float drvo3Scale = 0.3f;
+    glm::vec3 drvo4Position = glm::vec3(-3.0f, 0.8f, 7.0f);
+    float drvo4Scale = 1.0f;
+    glm::vec3 drvo5Position = glm::vec3(-9.0f, 0.8f, 5.0f);
+    float drvo5Scale = 0.9f;
 
     glm::vec3 pwrlPosition = glm::vec3(-64.8f, 0.8f, -5.0f);
     float pwrlScale = 0.6f;
@@ -321,6 +325,10 @@ int main() {
     drvo2.SetShaderTextureNamePrefix("material.");
     Model drvo3("resources/objects/Priroda/drvo/scene.gltf");
     drvo3.SetShaderTextureNamePrefix("material.");
+    Model drvo4("resources/objects/Priroda/japanese_maple2/scene.gltf");
+    drvo4.SetShaderTextureNamePrefix("material.");
+    Model drvo5("resources/objects/Priroda/japanese_cherry_tree_medium-poly/scene.gltf");
+    drvo5.SetShaderTextureNamePrefix("material.");
 
     Model powerline("resources/objects/okoloputnici/powerline/scene.gltf");
     powerline.SetShaderTextureNamePrefix("material.");
@@ -371,10 +379,6 @@ int main() {
     spotLight1.quadratic = 0.032f;
     spotLight1.cutOff = glm::cos(glm::radians(5.0f));
     spotLight1.outerCutOff = glm::cos(glm::radians(10.0f));
-
-
-
-//ideja za blicanje
 
 
     //fog
@@ -667,6 +671,21 @@ int main() {
         drvo3Model = glm::rotate(drvo3Model, glm::radians(30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("model", drvo3Model);
         drvo3.Draw(ourShader);
+        //4
+        glm::mat4 drvo4Model = glm::mat4(1.0f);
+        drvo4Model = glm::translate(drvo4Model,programState->drvo4Position);
+        drvo4Model = glm::scale(drvo4Model, glm::vec3(programState->drvo4Scale));
+        drvo4Model = glm::rotate(drvo4Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", drvo4Model);
+        drvo4.Draw(ourShader);
+        //5
+        glm::mat4 drvo5Model = glm::mat4(1.0f);
+        drvo5Model = glm::translate(drvo5Model,programState->drvo5Position);
+        drvo5Model = glm::scale(drvo5Model, glm::vec3(programState->drvo5Scale));
+        drvo5Model = glm::rotate(drvo5Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", drvo5Model);
+        drvo5.Draw(ourShader);
+
 
 
         //render stubova
