@@ -56,6 +56,7 @@ uniform PointLight pointLights[MAX_POINT_LIGHTS];
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 uniform SpotLight spotLight;
 uniform SpotLight spotLight1;
+uniform float transparent;
 
 
 // Fog
@@ -106,8 +107,8 @@ vec3 CalcDirectionalLight(DirLight light, vec3 normal, vec3 viewDir)
     vec3 ambient = light.ambient * vec3(texture(material.texture_diffuse1, TexCoords));
 
     vec4 diffSample = texture(material.texture_diffuse1, TexCoords);
-        if(diffSample.a < 0.1)
-            discard;
+    if(diffSample.a < 0.1)
+        discard;
     vec3 diffuse = light.diffuse * diff * vec3(diffSample);
 //     vec3 diffuse = light.diffuse * diff * vec3(texture(material.texture_diffuse1, TexCoords));
     vec3 specular = light.specular * spec * vec3(texture(material.texture_specular1, TexCoords));
@@ -133,8 +134,8 @@ vec3 CalcSpotLight(SpotLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
     vec3 ambient = light.ambient * vec3(texture(material.texture_diffuse1, TexCoords));
 
     vec4 diffSample = texture(material.texture_diffuse1, TexCoords);
-        if(diffSample.a < 0.1)
-            discard;
+    if(diffSample.a < 0.1)
+        discard;
     vec3 diffuse = light.diffuse * diff * vec3(diffSample);
 //     vec3 diffuse = light.diffuse * diff * vec3(texture(material.texture_diffuse1, TexCoords));
     vec3 specular = light.specular * spec * vec3(texture(material.texture_specular1, TexCoords));
@@ -164,5 +165,5 @@ void main()
     fogFactor = clamp(fogFactor, 0.0, 1.0);
     vec3 finalColor = mix(result, fogColor, fogFactor);
 
-    FragColor = vec4(finalColor, 1.0);
+    FragColor = vec4(finalColor, transparent);
 }

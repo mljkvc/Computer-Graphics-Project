@@ -118,8 +118,9 @@ struct ProgramState {
     glm::vec3 trava2Position = glm::vec3(-60.0f, 0.9f, -10.5f);
     float travaScale = 1.0f;
 
-    glm::vec3 rocksPosition = glm::vec3(-60.0f, 1.04f, -3.0f);
-    float rocksScale = 0.8f;
+    glm::vec3 zgradePosition = glm::vec3(0.0f, 17.0f, 63.0f);
+    glm::vec3 zgrade2Position = glm::vec3(70.0f, 17.0f, 63.0f);
+    float zgradeScale = 2.0f;
 
     glm::vec3 planinaPosition = glm::vec3(80.0f, 0.0f, 0.0f);
     float planinaScale = 30.0f;
@@ -236,6 +237,10 @@ int main() {
     glEnable(GL_DEPTH_TEST);
     glEnable(GL_MULTISAMPLE);
 
+    //blending
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
     //face culling
     glEnable(GL_CULL_FACE);
     glCullFace(GL_FRONT);
@@ -339,8 +344,8 @@ int main() {
     Model trava("resources/objects/Priroda/green_field/scene.gltf");
     trava.SetShaderTextureNamePrefix("material.");
 
-    Model rocks("resources/objects/Priroda/rocks/kamencici.obj");
-    rocks.SetShaderTextureNamePrefix("material.");
+    Model zgrada("resources/objects/low_poly_night_city_building_skyline/scene.gltf");
+    zgrada.SetShaderTextureNamePrefix("material.");
 
     Model planina("resources/objects/Priroda/snowy_mountain_-_terrain/scene.gltf");
     planina.SetShaderTextureNamePrefix("material.");
@@ -477,6 +482,7 @@ int main() {
         ourShader.setFloat("fogStart", fogStart);
         ourShader.setFloat("fogEnd", fogEnd);
         ourShader.setVec3("fogColor", fogColor);
+        ourShader.setFloat("transparent", 1.0f);
 
 
         //dir light
@@ -639,6 +645,8 @@ int main() {
         ourShader.setMat4("model", nisanModel2);
         silvia.Draw(ourShader);
 
+
+//        ourShader.setFloat("transparent", 0.2f);
         //renderovanje treceg nisana
         glm::mat4 nisanModel3 = glm::mat4(1.0f);
         nisanModel3 = glm::translate(nisanModel3,programState->nisanPosition3);
@@ -649,6 +657,7 @@ int main() {
         sxNissan.Draw(ourShader);
 
 
+        ourShader.setFloat("transparent", 1.0f);
         //renderovanje drveca
         //1
         glm::mat4 drvo1Model = glm::mat4(1.0f);
@@ -685,6 +694,23 @@ int main() {
         drvo5Model = glm::rotate(drvo5Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
         ourShader.setMat4("model", drvo5Model);
         drvo5.Draw(ourShader);
+
+
+        glm::mat4 zgradeModel = glm::mat4(1.0f);
+        zgradeModel = glm::translate(zgradeModel,programState->zgradePosition);
+        zgradeModel = glm::scale(zgradeModel, glm::vec3(programState->zgradeScale));
+        zgradeModel = glm::rotate(zgradeModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        zgradeModel = glm::rotate(zgradeModel, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        ourShader.setMat4("model", zgradeModel);
+        zgrada.Draw(ourShader);
+
+        glm::mat4 zgrade2Model = glm::mat4(1.0f);
+        zgrade2Model = glm::translate(zgrade2Model,programState->zgrade2Position);
+        zgrade2Model = glm::scale(zgrade2Model, glm::vec3(programState->zgradeScale));
+        zgrade2Model = glm::rotate(zgrade2Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        zgrade2Model = glm::rotate(zgrade2Model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        ourShader.setMat4("model", zgrade2Model);
+        zgrada.Draw(ourShader);
 
 
 
