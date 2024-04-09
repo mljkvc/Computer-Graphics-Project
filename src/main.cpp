@@ -85,6 +85,7 @@ struct ProgramState {
     bool migavacL = false;
     bool migavacD = false;
     bool move = false;
+    bool skySwitch = false;
 
     glm::vec3 putPosition = glm::vec3(-80.0f, 0.0f, 0.0f);
     float putScale = 1.0f;
@@ -409,18 +410,6 @@ int main() {
     glEnableVertexAttribArray(0);
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
 
-    // skybox textures
-    stbi_set_flip_vertically_on_load(false);
-    vector<std::string> faces
-            {
-                    FileSystem::getPath("resources/textures/skybox2/right.png"),
-                    FileSystem::getPath("resources/textures/skybox2/left.png"),
-                    FileSystem::getPath("resources/textures/skybox2/top.png"),
-                    FileSystem::getPath("resources/textures/skybox2/bottom.png"),
-                    FileSystem::getPath("resources/textures/skybox2/front.png"),
-                    FileSystem::getPath("resources/textures/skybox2/back.png")
-            };
-    unsigned int cubemapTexture = loadCubemap(faces);
 
     // shader configuration
     skyboxShader.use();
@@ -445,6 +434,31 @@ int main() {
         // -----
         processInput(window);
 
+
+        // skybox textures
+        stbi_set_flip_vertically_on_load(false);
+        vector<std::string> faces;
+        if(programState->skySwitch) {
+            faces = {
+                    FileSystem::getPath("resources/textures/skybox1/right.png"),
+                    FileSystem::getPath("resources/textures/skybox1/left.png"),
+                    FileSystem::getPath("resources/textures/skybox1/top.png"),
+                    FileSystem::getPath("resources/textures/skybox1/bottom.png"),
+                    FileSystem::getPath("resources/textures/skybox1/front.png"),
+                    FileSystem::getPath("resources/textures/skybox1/back.png")
+            };
+        }
+        else {
+            faces = {
+                    FileSystem::getPath("resources/textures/skybox2/right.png"),
+                    FileSystem::getPath("resources/textures/skybox2/left.png"),
+                    FileSystem::getPath("resources/textures/skybox2/top.png"),
+                    FileSystem::getPath("resources/textures/skybox2/bottom.png"),
+                    FileSystem::getPath("resources/textures/skybox2/front.png"),
+                    FileSystem::getPath("resources/textures/skybox2/back.png")
+            };
+        }
+        unsigned int cubemapTexture = loadCubemap(faces);
 
         // render
         // ------
@@ -974,6 +988,10 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
     if(key == GLFW_KEY_M && action == GLFW_PRESS) {
         programState->move = !programState->move;
+    }
+
+    if(key == GLFW_KEY_Q && action == GLFW_PRESS) {
+        programState->skySwitch = !programState->skySwitch;
     }
 
     if (key == GLFW_KEY_F1 && action == GLFW_PRESS) {
