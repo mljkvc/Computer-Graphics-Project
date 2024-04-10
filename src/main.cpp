@@ -90,12 +90,16 @@ struct ProgramState {
     glm::vec3 putPosition = glm::vec3(-80.0f, 0.0f, 0.0f);
     float putScale = 1.0f;
 
-    glm::vec3 nisanPosition = glm::vec3(5.0f, 1.65f, 0.7f);
-    float nisanScale = 1.5f;
-    glm::vec3 nisanPosition2 = glm::vec3(11.0f, 1.65f, -1.1f);
+
+    glm::vec3 nisanPosition1 = glm::vec3(11.0f, 1.57f, -1.1f);
+    float nisanScale1 = 0.7f;
+    glm::vec3 nisanPosition2 = glm::vec3(5.0f, 1.65f, 0.7f);
     float nisanScale2 = 1.5f;
-    glm::vec3 nisanPosition3 = glm::vec3(-1.0f, 1.65f, -1.1f);
+    glm::vec3 nisanPosition3 = glm::vec3(-1.0f, 1.57f, -1.65f);
     float nisanScale3 = 0.7f;
+    glm::vec3 nisanPosition4 = glm::vec3(-6.0f, 1.65f, 0.72f);
+    float nisanScale4 = 1.5f;
+
 
     glm::vec3 drvo1Position = glm::vec3(11.0f, 0.8f, 5.0f);
     float drvo1Scale = 0.015f;
@@ -103,10 +107,8 @@ struct ProgramState {
     float drvo2Scale = 0.017f;
     glm::vec3 drvo3Position = glm::vec3(3.0f, 0.8f, 7.0f);
     float drvo3Scale = 0.3f;
-    glm::vec3 drvo4Position = glm::vec3(-3.0f, 0.8f, 7.0f);
-    float drvo4Scale = 1.0f;
-    glm::vec3 drvo5Position = glm::vec3(-9.0f, 0.8f, 5.0f);
-    float drvo5Scale = 0.9f;
+    glm::vec3 drvo4Position = glm::vec3(-4.0f, 0.8f, 5.0f);
+    float drvo4Scale = 0.9f;
 
     glm::vec3 pwrlPosition = glm::vec3(-64.8f, 0.8f, -5.0f);
     float pwrlScale = 0.6f;
@@ -125,8 +127,8 @@ struct ProgramState {
     glm::vec3 planinaPosition = glm::vec3(80.0f, 0.0f, 0.0f);
     float planinaScale = 30.0f;
 
-    glm::vec3 terrainPosition = glm::vec3(0.0f, 3.8f, 0.0f);
-    glm::vec3 terrain1Position = glm::vec3(-214.0f, 3.8f, 0.0f);
+    glm::vec3 terrainPosition = glm::vec3(0.0f, 3.7f, 0.0f);
+    glm::vec3 terrain1Position = glm::vec3(-214.0f, 3.7f, 0.0f);
     float terrainScale = 30.0f;
 
     PointLight pointLight;
@@ -300,13 +302,13 @@ int main() {
 //    pozicija trave
     float planeVertices[] = {
             // positions          // texture Coords
-            25.0f, 1.0f,  2.35f,  2.0f, 0.0f,
-            -25.0f, 1.0f,  2.35f,  0.0f, 0.0f,
-            -25.0f, 1.0f, -2.6f,  0.0f, 6.0f,
+            25.0f, 1.1f,  2.35f,  2.0f, 0.0f,
+            -25.0f, 1.1f,  2.35f,  0.0f, 0.0f,
+            -25.0f, 1.1f, -2.6f,  0.0f, 6.0f,
 
-            25.0f, 1.0f,  2.35f,  2.0f, 0.0f,
-            -25.0f, 1.0f, -2.6f,  0.0f, 6.0f,
-            25.0f, 1.0f, -2.6f,  2.0f, 6.0f
+            25.0f, 1.1f,  2.35f,  2.0f, 0.0f,
+            -25.0f, 1.1f, -2.6f,  0.0f, 6.0f,
+            25.0f, 1.1f, -2.6f,  2.0f, 6.0f
     };
 
 
@@ -317,12 +319,14 @@ int main() {
     Model put("resources/objects/okoloputnici/road/road.obj");
     put.SetShaderTextureNamePrefix("material.");
 
-    Model nisan("resources/objects/Auti/nissan-240sx/SA5HLA5LO5H1RQJ42KKT685IS.obj");
-    nisan.SetShaderTextureNamePrefix("material.");
-    Model silvia("resources/objects/Auti/nissan-s15/5B0PLJOVYVIQBVNHBTYILMRIV.obj");
-    nisan.SetShaderTextureNamePrefix("material.");
-    Model sxNissan("resources/objects/Auti/polovicni auti/nissan_180sx_free/scene.gltf");
-    nisan.SetShaderTextureNamePrefix("material.");
+    Model auto1("resources/objects/Auti/roze_nissan/sx180.obj");
+    auto1.SetShaderTextureNamePrefix("material.");
+    Model auto2("resources/objects/Auti/beli_nissan_s15/s15.obj");
+    auto2.SetShaderTextureNamePrefix("material.");
+    Model auto3("resources/objects/Auti/porsche_911_rwb/porche.obj");
+    auto3.SetShaderTextureNamePrefix("material.");
+    Model auto4("resources/objects/Auti/nissan_240sx_crveni/240sx.obj");
+    auto4.SetShaderTextureNamePrefix("material.");
 
     Model drvo1("resources/objects/Priroda/japanese-maple/japaneseMaple.obj");
     drvo1.SetShaderTextureNamePrefix("material.");
@@ -330,10 +334,8 @@ int main() {
     drvo2.SetShaderTextureNamePrefix("material.");
     Model drvo3("resources/objects/Priroda/drvo/scene.gltf");
     drvo3.SetShaderTextureNamePrefix("material.");
-    Model drvo4("resources/objects/Priroda/japanese_maple2/scene.gltf");
+    Model drvo4("resources/objects/Priroda/japanese_cherry_tree_medium-poly/scene.gltf");
     drvo4.SetShaderTextureNamePrefix("material.");
-    Model drvo5("resources/objects/Priroda/japanese_cherry_tree_medium-poly/scene.gltf");
-    drvo5.SetShaderTextureNamePrefix("material.");
 
     Model powerline("resources/objects/okoloputnici/powerline/scene.gltf");
     powerline.SetShaderTextureNamePrefix("material.");
@@ -388,8 +390,8 @@ int main() {
 
     //fog
     float fogDensity = 5.0f;
-    float fogStart = 20.0f;
-    float fogEnd = 60.0f;
+    float fogStart = 30.0f;
+    float fogEnd = 100.0f;
     glm::vec3 fogColor = glm::vec3(0.7f, 0.7f, 0.7f);
 
 
@@ -559,7 +561,7 @@ int main() {
         ourShader.setFloat("material.shininess", 10.0f);
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom),
-                                                (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 100.0f);
+                                                (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 200.0f);
         glm::mat4 view = programState->camera.GetViewMatrix();
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
@@ -570,14 +572,14 @@ int main() {
             float nazad = 3.0f;
 
             if (prekidac)
-                programState->nisanPosition.x -= napred * deltaTime;
+                programState->nisanPosition1.x -= napred * deltaTime;
             if (!prekidac)
-                programState->nisanPosition.x += nazad * deltaTime;
+                programState->nisanPosition1.x += nazad * deltaTime;
 
-            if (programState->nisanPosition.x <= 0.0f) {
+            if (programState->nisanPosition1.x <= 0.0f) {
                 prekidac = false;
             }
-            if (programState->nisanPosition.x >= 9.0f)
+            if (programState->nisanPosition1.x >= 9.0f)
                 prekidac = true;
 
             if (prekidac2)
@@ -604,9 +606,8 @@ int main() {
             if (programState->nisanPosition3.x >= -1.0f)
                 prekidac3 = true;
         }
-
-        ourShader.setVec3("spotLight.position", programState->nisanPosition3 + glm::vec3(-1.3,-0.03,0.4));
-        ourShader.setVec3("spotLight1.position", programState->nisanPosition3 + glm::vec3(-1.3,-0.03,-0.4));
+        ourShader.setVec3("spotLight.position", programState->nisanPosition3 + glm::vec3(-0.9,0.06,0.48));
+        ourShader.setVec3("spotLight1.position", programState->nisanPosition3 + glm::vec3(-0.9,0.06,-0.48));
 
 
 
@@ -631,11 +632,11 @@ int main() {
 
         //renderovanje nisana
         glm::mat4 nisanModel = glm::mat4(1.0f);
-        nisanModel = glm::translate(nisanModel,programState->nisanPosition);
-        nisanModel = glm::scale(nisanModel, glm::vec3(programState->nisanScale));
-        nisanModel = glm::rotate(nisanModel, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        nisanModel = glm::translate(nisanModel,programState->nisanPosition1);
+        nisanModel = glm::scale(nisanModel, glm::vec3(programState->nisanScale1));
+        nisanModel = glm::rotate(nisanModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("model", nisanModel);
-        nisan.Draw(ourShader);
+        auto1.Draw(ourShader);
 
         //renderovanje drugog nisana
         glm::mat4 nisanModel2 = glm::mat4(1.0f);
@@ -643,21 +644,25 @@ int main() {
         nisanModel2 = glm::scale(nisanModel2, glm::vec3(programState->nisanScale2));
         nisanModel2 = glm::rotate(nisanModel2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("model", nisanModel2);
-        silvia.Draw(ourShader);
+        auto2.Draw(ourShader);
 
-
-//        ourShader.setFloat("transparent", 0.2f);
-        //renderovanje treceg nisana
+        //renderovanje porsha
         glm::mat4 nisanModel3 = glm::mat4(1.0f);
         nisanModel3 = glm::translate(nisanModel3,programState->nisanPosition3);
         nisanModel3 = glm::scale(nisanModel3, glm::vec3(programState->nisanScale3));
-        nisanModel3 = glm::rotate(nisanModel3, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        nisanModel3 = glm::rotate(nisanModel3, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+        nisanModel3 = glm::rotate(nisanModel3, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("model", nisanModel3);
-        sxNissan.Draw(ourShader);
+        auto3.Draw(ourShader);
+
+        //4
+        glm::mat4 nisanModel4 = glm::mat4(1.0f);
+        nisanModel4 = glm::translate(nisanModel4,programState->nisanPosition4);
+        nisanModel4 = glm::scale(nisanModel4, glm::vec3(programState->nisanScale4));
+        nisanModel4 = glm::rotate(nisanModel4, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", nisanModel4);
+        auto4.Draw(ourShader);
 
 
-        ourShader.setFloat("transparent", 1.0f);
         //renderovanje drveca
         //1
         glm::mat4 drvo1Model = glm::mat4(1.0f);
@@ -673,27 +678,21 @@ int main() {
         drvo2Model = glm::rotate(drvo2Model, glm::radians(70.0f), glm::vec3(0.0f, 1.0f, 0.0f));
         ourShader.setMat4("model", drvo2Model);
         drvo2.Draw(ourShader);
-        //3
-        glm::mat4 drvo3Model = glm::mat4(1.0f);
-        drvo3Model = glm::translate(drvo3Model,programState->drvo3Position);
-        drvo3Model = glm::scale(drvo3Model, glm::vec3(programState->drvo3Scale));
-        drvo3Model = glm::rotate(drvo3Model, glm::radians(30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", drvo3Model);
-        drvo3.Draw(ourShader);
-        //4
-        glm::mat4 drvo4Model = glm::mat4(1.0f);
-        drvo4Model = glm::translate(drvo4Model,programState->drvo4Position);
-        drvo4Model = glm::scale(drvo4Model, glm::vec3(programState->drvo4Scale));
-        drvo4Model = glm::rotate(drvo4Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        ourShader.setMat4("model", drvo4Model);
-        drvo4.Draw(ourShader);
-        //5
-        glm::mat4 drvo5Model = glm::mat4(1.0f);
-        drvo5Model = glm::translate(drvo5Model,programState->drvo5Position);
-        drvo5Model = glm::scale(drvo5Model, glm::vec3(programState->drvo5Scale));
-        drvo5Model = glm::rotate(drvo5Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        ourShader.setMat4("model", drvo5Model);
-        drvo5.Draw(ourShader);
+//        //3
+//        glm::mat4 drvo3Model = glm::mat4(1.0f);
+//        drvo3Model = glm::translate(drvo3Model,programState->drvo3Position);
+//        drvo3Model = glm::scale(drvo3Model, glm::vec3(programState->drvo3Scale));
+//        drvo3Model = glm::rotate(drvo3Model, glm::radians(30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+//        ourShader.setMat4("model", drvo3Model);
+//        drvo3.Draw(ourShader);
+//        //4
+//        glm::mat4 drvo4Model = glm::mat4(1.0f);
+//        drvo4Model = glm::translate(drvo4Model,programState->drvo4Position);
+//        drvo4Model = glm::scale(drvo4Model, glm::vec3(programState->drvo4Scale));
+//        drvo4Model = glm::rotate(drvo4Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+//        ourShader.setMat4("model", drvo4Model);
+//        drvo4.Draw(ourShader);
+
 
 
         glm::mat4 zgradeModel = glm::mat4(1.0f);
@@ -810,23 +809,6 @@ int main() {
             ourShader.setMat4("model", travaModel);
             trava.Draw(ourShader);
         }
-
-
-//        render kamencica
-//        if(programState->move)
-//            programState->trava2Position.x += speed * deltaTime;
-//        if (programState->travaPosition.x >= -40.0f)
-//            programState->travaPosition.x = -60.0f;
-//
-//        glm::mat4 rocksModel = glm::mat4(1.0f);
-//        for (int i = 0; i < 10; ++i) {
-//            rocksModel = glm::mat4(1.0f);
-//            rocksModel = glm::translate(rocksModel,programState->rocksPosition + glm::vec3(10.0f * float(i), 0.0f, 0.0f));
-//            rocksModel = glm::scale(rocksModel, glm::vec3(programState->rocksScale));
-//            rocksModel = glm::rotate(rocksModel, glm::radians(-90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-//            ourShader.setMat4("model", rocksModel);
-//            rocks.Draw(ourShader);
-//        }
 
 
         glm::mat4 planinaModel = glm::mat4(1.0f);

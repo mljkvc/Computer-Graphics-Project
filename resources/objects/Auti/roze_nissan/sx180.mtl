@@ -1,0 +1,482 @@
+# Blender 4.1.0 MTL File: 'None'
+# www.blender.org
+
+newmtl 240sx_94_details__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 240sx_94_details__spec_baseColor.png
+
+newmtl 240sx_94_gauges__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 240sx_94_gauges__spec_baseColor.png
+
+newmtl 240sx_94_interior__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 240sx_94_interior__spec_baseColor.png
+
+newmtl 240sx_94_lights__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 240sx_94_lights__spec_baseColor.png
+
+newmtl 240sx_94_symbols2__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 240sx_94_symbols2__spec_baseColor.png
+
+newmtl 240sx_94_symbols__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 240sx_94_symbols__spec_baseColor.png
+
+newmtl 240sx_94_symbolsembossed__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 240sx_94_symbolsembossed__spec_baseColor.png
+
+newmtl 240sx_94_under__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd 240sx_94_under__spec_baseColor.png
+
+newmtl 240sx_headlight__spec
+Ns 381.049103
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd 240sx_headlight__spec_baseColor.png
+
+newmtl CHROMEE
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Kd 0.420000 0.420000 0.420000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl GLASS
+Ns 1000.000000
+Ka 1.000000 1.000000 1.000000
+Kd 0.001370 0.001370 0.001370
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl GLASS_V2
+Ns 28.284269
+Ka 0.899925 0.899925 0.899925
+Kd 0.000000 0.000000 0.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 0.284413
+illum 6
+
+newmtl Matte__FF0F0F0F__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Kd 0.013314 0.013314 0.013314
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+
+newmtl Matte__FF141414__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Kd 0.007149 0.007149 0.007149
+Ks 0.044855 0.044855 0.044855
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Matte__FF191919__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Kd 0.012518 0.012518 0.012518
+Ks 0.073118 0.073118 0.073118
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl Matte__FFCCCCCC__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Kd 0.800000 0.800000 0.800000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+
+newmtl XHROME__env_4_spec
+Ns 743.458557
+Ka 0.874802 0.874802 0.874802
+Kd 0.235093 0.235093 0.235093
+Ks 0.274102 0.274102 0.274102
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+
+newmtl alcantara2__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.041715 0.041715 0.041715
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd alcantara2__spec_baseColor.png
+
+newmtl alcantara3__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.032293 0.032293 0.032293
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd alcantara3__spec_baseColor.png
+
+newmtl alcantara__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.091960 0.091960 0.091960
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd alcantara__spec_baseColor.png
+
+newmtl apexi__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.063697 0.063697 0.063697
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd apexi__spec_baseColor.png
+
+newmtl apexiglass__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd apexiglass__spec_baseColor.png
+
+newmtl brakedisc__spec
+Ns 28.284269
+Ka 0.969013 0.969013 0.969013
+Ks 0.082539 0.082539 0.082539
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd brakedisc__spec_baseColor.png
+
+newmtl carpets__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd carpets__spec_baseColor.png
+
+newmtl cinture__spec
+Ns 103.746559
+Ka 1.000000 1.000000 1.000000
+Ks 0.192452 0.192452 0.192452
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd cinture__spec_baseColor.png
+
+newmtl dashedint__sec_spec
+Ns 2.092579
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd dashedint__sec_spec_baseColor.png
+
+newmtl exhaust__env_6_spec
+Ns 462.534821
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd exhaust__env_6_spec_baseColor.png
+
+newmtl gauges__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd gauges__spec_baseColor.png
+
+newmtl headlight__spec_trans
+Ns 28.284269
+Ka 0.918767 0.918767 0.918767
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd headlight__spec_trans_baseColor.png
+
+newmtl intcooler__env_2_spec
+Ns 314.457550
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd intcooler__env_2_spec_baseColor.png
+
+newmtl mirror__env_24_spec
+Ns 700.765808
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd mirror__spec_baseColor.png
+
+newmtl mirror__spec
+Ns 629.090637
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd mirror__spec_baseColor.png
+
+newmtl pioneer2__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd pioneer2__spec_baseColor.png
+
+newmtl pioneer__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.016592 0.016592 0.016592
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd pioneer__spec_baseColor.png
+
+newmtl plastic__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.029153 0.029153 0.029153
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd plastic__spec_baseColor.png
+
+newmtl red__spec
+Ns 28.284269
+Ka 0.592169 0.592169 0.592169
+Ks 0.135926 0.135926 0.135926
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd red__spec_baseColor.png
+
+newmtl remap180__prim_env_2_spec
+Ns 358.141846
+Ka 1.000000 1.000000 1.000000
+Ks 0.004030 0.004030 0.004030
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd remap180__prim_env_2_spec_baseColor.png
+
+newmtl ssrgartmaier__env_12_spec
+Ns 669.574524
+Ka 1.000000 1.000000 1.000000
+Ks 0.022872 0.022872 0.022872
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd ssrgartmaier__env_12_spec_baseColor.png
+
+newmtl ssrgartmaierlogo__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd ssrgartmaierlogo__spec_baseColor.png
+
+newmtl strutbar__spec
+Ns 314.457550
+Ka 0.943890 0.943890 0.943890
+Ks 0.088820 0.088820 0.088820
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd strutbar__spec_baseColor.png
+
+newmtl tail__env_8_spec
+Ns 454.031189
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd tail__env_8_spec_baseColor.png
+
+newmtl thrash__spec
+Ns 28.284269
+Ka 1.000000 1.000000 1.000000
+Ks 0.500000 0.500000 0.500000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 2
+map_Kd thrash__spec_baseColor.png
+
+newmtl tire3__spec
+Ns 0.000000
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd tire3__spec_baseColor.png
+
+newmtl vehiclelights128__spec_RR
+Ns 280.223541
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd vehiclelights128__spec_RR_baseColor.png
+
+newmtl vertex1__spec
+Ns 28.284269
+Ka 0.466554 0.466554 0.466554
+Ks 0.063697 0.063697 0.063697
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd vertex1__spec_baseColor.png
+
+newmtl vertex2__spec
+Ns 28.284269
+Ka 0.843398 0.843398 0.843398
+Ks 0.104522 0.104522 0.104522
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd vertex2__spec_baseColor.png
+
+newmtl vs_kf__env_12_spec
+Ns 679.892639
+Ka 1.000000 1.000000 1.000000
+Ks 0.000000 0.000000 0.000000
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 1
+map_Kd vs_kf__env_12_spec_baseColor.png
+
+newmtl zebra__spec
+Ns 28.284269
+Ka 0.422589 0.422589 0.422589
+Ks 0.088820 0.088820 0.088820
+Ke 0.000000 0.000000 0.000000
+Ni 1.500000
+d 1.000000
+illum 3
+map_Kd zebra__spec_baseColor.png
