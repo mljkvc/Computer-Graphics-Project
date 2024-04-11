@@ -1,20 +1,7 @@
 #version 330 core
 out vec4 FragColor;
 
-#define MAX_POINT_LIGHTS 10
 #define MAX_SPOT_LIGHTS 10
-
-struct PointLight {
-    vec3 position;
-
-    vec3 specular;
-    vec3 diffuse;
-    vec3 ambient;
-
-    float constant;
-    float linear;
-    float quadratic;
-};
 
 struct DirLight {
     vec3 direction;
@@ -49,16 +36,12 @@ in vec2 TexCoords;
 in vec3 Normal;
 in vec3 FragPos;
 
-
 uniform Material material;
 uniform DirLight dirLight;
-uniform PointLight pointLights[MAX_POINT_LIGHTS];
-uniform PointLight pointLight;
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 uniform SpotLight spotLight;
 uniform SpotLight spotLight1;
 uniform float transparent;
-
 
 // Fog
 uniform float fogDensity;
@@ -66,34 +49,7 @@ uniform float fogStart;
 uniform float fogEnd;
 uniform vec3 fogColor;
 
-
 uniform vec3 viewPosition;
-// calculates the color when using a point light.
-vec3 CalcPointLight(PointLight light, vec3 normal, vec3 fragPos, vec3 viewDir)
-{
-    vec3 lightDir = normalize(light.position - fragPos);
-    // diffuse shading
-    float diff = max(dot(normal, lightDir), 0.0);
-    // specular shading blinn phong
-    vec3 halfwayDir = normalize(lightDir + viewDir);
-    float spec = pow(max(dot(normal, halfwayDir), 0.0), material.shininess * 4);
-
-    // attenuation
-    float distance = length(light.position - fragPos);
-    float attenuation = 1.0 / (light.constant + light.linear * distance + light.quadratic * (distance * distance));
-    // combine results
-    vec3 ambient = light.ambient * vec3(texture(material.texture_diffuse1, TexCoords));
-
-    vec4 diffSample = texture(material.texture_diffuse1, TexCoords);
-    if(diffSample.a < 0.1)
-        discard;
-    vec3 diffuse = light.diffuse * diff * vec3(diffSample);
-    vec3 specular = light.specular * spec * vec3(texture(material.texture_specular1, TexCoords).xxx);
-    ambient *= attenuation;
-    diffuse *= attenuation;
-    specular *= attenuation;
-    return (ambient + diffuse + specular);
-}
 
 vec3 CalcDirectionalLight(DirLight light, vec3 normal, vec3 viewDir)
 {
@@ -159,7 +115,6 @@ void main()
     for (int i = 0; i < MAX_SPOT_LIGHTS; ++i) {
         result += CalcSpotLight(spotLights[i], normal, FragPos, viewDir);
     }
-    result += CalcPointLight(pointLight, normal, FragPos, viewDir);
 
     //fog
     float distance = length(FragPos - viewPosition);

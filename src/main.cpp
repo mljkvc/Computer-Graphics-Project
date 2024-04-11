@@ -28,8 +28,6 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
 
 unsigned int loadCubemap(vector<std::string> faces);
 
-unsigned int loadTexture(char const * path);
-
 // settings
 const unsigned int SCR_WIDTH = 1920;
 const unsigned int SCR_HEIGHT = 1080;
@@ -49,16 +47,6 @@ struct DirLight {
     glm::vec3 ambient;
     glm::vec3 diffuse;
     glm::vec3 specular;
-};
-
-struct PointLight {
-    glm::vec3 position;
-    glm::vec3 ambient;
-    glm::vec3 diffuse;
-    glm::vec3 specular;
-    float constant;
-    float linear;
-    float quadratic;
 };
 
 struct SpotLight {
@@ -91,7 +79,6 @@ struct ProgramState {
     glm::vec3 putPosition = glm::vec3(-80.0f, 0.0f, 0.0f);
     float putScale = 1.0f;
 
-
     glm::vec3 nisanPosition1 = glm::vec3(11.0f, 1.57f, -1.1f);
     float nisanScale1 = 0.7f;
     glm::vec3 nisanPosition2 = glm::vec3(5.0f, 1.65f, 0.7f);
@@ -101,15 +88,8 @@ struct ProgramState {
     glm::vec3 nisanPosition4 = glm::vec3(-6.0f, 1.65f, 0.72f);
     float nisanScale4 = 1.5f;
 
-
-    glm::vec3 drvo1Position = glm::vec3(11.0f, 0.8f, 5.0f);
-    float drvo1Scale = 0.015f;
-    glm::vec3 drvo2Position = glm::vec3(7.0f, 0.8f, 5.0f);
-    float drvo2Scale = 0.017f;
-    glm::vec3 drvo3Position = glm::vec3(3.0f, 0.8f, 7.0f);
-    float drvo3Scale = 0.3f;
-    glm::vec3 drvo4Position = glm::vec3(-4.0f, 0.8f, 5.0f);
-    float drvo4Scale = 0.9f;
+    glm::vec3 drvoPosition = glm::vec3(-80.0f, 0.4f, 5.0f);
+    float drvoScale = 0.4f;
 
     glm::vec3 pwrlPosition = glm::vec3(-64.8f, 0.8f, -5.0f);
     float pwrlScale = 0.6f;
@@ -117,22 +97,20 @@ struct ProgramState {
     glm::vec3 lampPosition = glm::vec3(-90.0f, 0.8f, 3.0f);
     float lampScale = 0.1f;
 
-    glm::vec3 travaPosition = glm::vec3(-60.0f, 0.9f, 4.3f);
-    glm::vec3 trava2Position = glm::vec3(-60.0f, 0.9f, -10.5f);
+    glm::vec3 travaPosition = glm::vec3(-60.0f, 1.1f, 4.3f);
+    glm::vec3 trava2Position = glm::vec3(-60.0f, 1.1f, -10.35f);
     float travaScale = 1.0f;
 
-    glm::vec3 zgradePosition = glm::vec3(0.0f, 17.0f, 63.0f);
-    glm::vec3 zgrade2Position = glm::vec3(70.0f, 17.0f, 63.0f);
+    glm::vec3 zgradePosition = glm::vec3(-140.0f, 17.0f, 63.0f);
     float zgradeScale = 2.0f;
 
     glm::vec3 planinaPosition = glm::vec3(80.0f, 0.0f, 0.0f);
     float planinaScale = 30.0f;
 
-    glm::vec3 terrainPosition = glm::vec3(0.0f, 3.7f, 0.0f);
-    glm::vec3 terrain1Position = glm::vec3(-214.0f, 3.7f, 0.0f);
+    glm::vec3 terrainPosition = glm::vec3(0.0f, 4.05f, 0.0f);
+    glm::vec3 terrain1Position = glm::vec3(-214.0f, 4.05f, 0.0f);
     float terrainScale = 30.0f;
 
-    PointLight pointLight;
     SpotLight spotLight;
     SpotLight spotLight1;
     ProgramState()
@@ -230,8 +208,6 @@ int main() {
     ImGuiIO &io = ImGui::GetIO();
     (void) io;
 
-
-
     ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init("#version 330 core");
 
@@ -302,18 +278,6 @@ int main() {
             1.0f, -1.0f,  1.0f
     };
 
-    //pozicija trave
-    float planeVertices[] = {
-            // positions          // texture Coords
-            25.0f, 1.1f,  2.35f,  2.0f, 0.0f,
-            -25.0f, 1.1f,  2.35f,  0.0f, 0.0f,
-            -25.0f, 1.1f, -2.6f,  0.0f, 6.0f,
-
-            25.0f, 1.1f,  2.35f,  2.0f, 0.0f,
-            -25.0f, 1.1f, -2.6f,  0.0f, 6.0f,
-            25.0f, 1.1f, -2.6f,  2.0f, 6.0f
-    };
-
     //HDR
     float quadVertices[] = {
             // positions        // texture Coords
@@ -340,14 +304,8 @@ int main() {
     Model auto4("resources/objects/Auti/nissan_240sx_crveni/240sx.obj");
     auto4.SetShaderTextureNamePrefix("material.");
 
-    Model drvo1("resources/objects/Priroda/japanese-maple/japaneseMaple.obj");
-    drvo1.SetShaderTextureNamePrefix("material.");
-    Model drvo2("resources/objects/Priroda/peach-blossom/peachBlossom.obj");
-    drvo2.SetShaderTextureNamePrefix("material.");
-    Model drvo3("resources/objects/Priroda/drvo/scene.gltf");
-    drvo3.SetShaderTextureNamePrefix("material.");
-    Model drvo4("resources/objects/Priroda/japanese_cherry_tree_medium-poly/scene.gltf");
-    drvo4.SetShaderTextureNamePrefix("material.");
+    Model drva("resources/objects/Priroda/custom drva/drvece.obj");
+    drva.SetShaderTextureNamePrefix("material.");
 
     Model powerline("resources/objects/okoloputnici/powerline/scene.gltf");
     powerline.SetShaderTextureNamePrefix("material.");
@@ -355,16 +313,16 @@ int main() {
     Model lamp("resources/objects/okoloputnici/street_lamp/scene.gltf");
     lamp.SetShaderTextureNamePrefix("material.");
 
-    Model trava("resources/objects/Priroda/green_field/scene.gltf");
+    Model trava("resources/objects/Priroda/trava/scene.gltf");
     trava.SetShaderTextureNamePrefix("material.");
 
-    Model zgrada("resources/objects/low_poly_night_city_building_skyline/scene.gltf");
+    Model zgrada("resources/objects/okoloputnici/zgrade/scene.gltf");
     zgrada.SetShaderTextureNamePrefix("material.");
 
-    Model planina("resources/objects/Priroda/snowy_mountain_-_terrain/scene.gltf");
+    Model planina("resources/objects/Priroda/planine/scene.gltf");
     planina.SetShaderTextureNamePrefix("material.");
 
-    Model terrain("resources/objects/Priroda/terrain/scene.gltf");
+    Model terrain("resources/objects/Priroda/brda/scene.gltf");
     terrain.SetShaderTextureNamePrefix("material.");
 
 
@@ -398,18 +356,6 @@ int main() {
     spotLight1.quadratic = 0.032f;
     spotLight1.cutOff = glm::cos(glm::radians(5.0f));
     spotLight1.outerCutOff = glm::cos(glm::radians(10.0f));
-
-    PointLight& pointLight = programState->pointLight;
-//            pointLight.position = glm::vec3(-90.0 + 30.0f * float(i), 2.0f, -0.25f);
-//            pointLight.position = glm::vec3(0.0f, 2.0f, -0.25f);
-    pointLight.position = programState->nisanPosition3;
-    pointLight.ambient = glm::vec3(0.2, 0.1, 0.1);
-    pointLight.diffuse = glm::vec3(1.0, 0.0, 0.0);
-    pointLight.specular = glm::vec3(1.0, 0.0, 0.0);
-    pointLight.constant = 1.0f;
-    pointLight.linear = 0.7f;
-    pointLight.quadratic = 1.8f;
-
 
 
     //fog
@@ -499,22 +445,6 @@ int main() {
     //-----------------------
 
 
-    // plane VAO
-    unsigned int planeVAO, planeVBO;
-    glGenVertexArrays(1, &planeVAO);
-    glGenBuffers(1, &planeVBO);
-    glBindVertexArray(planeVAO);
-    glBindBuffer(GL_ARRAY_BUFFER, planeVBO);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(planeVertices), &planeVertices, GL_STATIC_DRAW);
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
-    glEnableVertexAttribArray(1);
-    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
-
-    // load textures
-    unsigned int planeTexture = loadTexture(FileSystem::getPath("resources/textures/grass.jpg").c_str());
-
-
     // skybox VAO
     unsigned int skyboxVAO, skyboxVBO;
     glGenVertexArrays(1, &skyboxVAO);
@@ -530,8 +460,7 @@ int main() {
     skyboxShader.use();
     skyboxShader.setInt("skybox", 0);
 
-    // draw in wireframe
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
     bool prekidac = false;
     bool prekidac2 = true;
     bool prekidac3 = true;
@@ -662,22 +591,11 @@ int main() {
         ourShader.setFloat("spotLight1.outerCutOff", spotLight1.outerCutOff);
 
 
-        //point light
-        ourShader.setVec3("pointLight.position", programState->nisanPosition3 + glm::vec3(0.0f, -1.0f, 0.0f));
-        ourShader.setVec3("pointLight.ambient", pointLight.ambient);
-        ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
-        ourShader.setVec3("pointLight.specular", pointLight.specular);
-        ourShader.setFloat("pointLight.constant", pointLight.constant);
-        ourShader.setFloat("pointLight.linear", pointLight.linear);
-        ourShader.setFloat("pointLight.quadratic", pointLight.quadratic);
-
-
-
         ourShader.setVec3("viewPosition", programState->camera.Position);
         ourShader.setFloat("material.shininess", 10.0f);
         // view/projection transformations
         glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom),
-                                                (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 169.0f);
+                                                (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 100.0f + 69.0f);
         glm::mat4 view = programState->camera.GetViewMatrix();
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
@@ -746,7 +664,7 @@ int main() {
         }
 
 
-        //renderovanje nisana
+        //1. auto
         glm::mat4 nisanModel = glm::mat4(1.0f);
         nisanModel = glm::translate(nisanModel,programState->nisanPosition1);
         nisanModel = glm::scale(nisanModel, glm::vec3(programState->nisanScale1));
@@ -754,7 +672,7 @@ int main() {
         ourShader.setMat4("model", nisanModel);
         auto1.Draw(ourShader);
 
-        //renderovanje drugog nisana
+        //2. auto
         glm::mat4 nisanModel2 = glm::mat4(1.0f);
         nisanModel2 = glm::translate(nisanModel2,programState->nisanPosition2);
         nisanModel2 = glm::scale(nisanModel2, glm::vec3(programState->nisanScale2));
@@ -762,7 +680,7 @@ int main() {
         ourShader.setMat4("model", nisanModel2);
         auto2.Draw(ourShader);
 
-        //renderovanje porsha
+        //3. auto
         glm::mat4 nisanModel3 = glm::mat4(1.0f);
         nisanModel3 = glm::translate(nisanModel3,programState->nisanPosition3);
         nisanModel3 = glm::scale(nisanModel3, glm::vec3(programState->nisanScale3));
@@ -770,7 +688,7 @@ int main() {
         ourShader.setMat4("model", nisanModel3);
         auto3.Draw(ourShader);
 
-        //4
+        //4. auto
         glm::mat4 nisanModel4 = glm::mat4(1.0f);
         nisanModel4 = glm::translate(nisanModel4,programState->nisanPosition4);
         nisanModel4 = glm::scale(nisanModel4, glm::vec3(programState->nisanScale4));
@@ -780,54 +698,40 @@ int main() {
 
 
         //renderovanje drveca
-        //1
-        glm::mat4 drvo1Model = glm::mat4(1.0f);
-        drvo1Model = glm::translate(drvo1Model,programState->drvo1Position);
-        drvo1Model = glm::scale(drvo1Model, glm::vec3(programState->drvo1Scale));
-        drvo1Model = glm::rotate(drvo1Model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", drvo1Model);
-        drvo1.Draw(ourShader);
-        //2
-        glm::mat4 drvo2Model = glm::mat4(1.0f);
-        drvo2Model = glm::translate(drvo2Model,programState->drvo2Position);
-        drvo2Model = glm::scale(drvo2Model, glm::vec3(programState->drvo2Scale));
-        drvo2Model = glm::rotate(drvo2Model, glm::radians(70.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", drvo2Model);
-        drvo2.Draw(ourShader);
-//        //3
-//        glm::mat4 drvo3Model = glm::mat4(1.0f);
-//        drvo3Model = glm::translate(drvo3Model,programState->drvo3Position);
-//        drvo3Model = glm::scale(drvo3Model, glm::vec3(programState->drvo3Scale));
-//        drvo3Model = glm::rotate(drvo3Model, glm::radians(30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-//        ourShader.setMat4("model", drvo3Model);
-//        drvo3.Draw(ourShader);
-//        //4
-//        glm::mat4 drvo4Model = glm::mat4(1.0f);
-//        drvo4Model = glm::translate(drvo4Model,programState->drvo4Position);
-//        drvo4Model = glm::scale(drvo4Model, glm::vec3(programState->drvo4Scale));
-//        drvo4Model = glm::rotate(drvo4Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-//        ourShader.setMat4("model", drvo4Model);
-//        drvo4.Draw(ourShader);
+        if(programState->move)
+            programState->drvoPosition.x += speed * deltaTime;
+        if (programState->drvoPosition.x >= -40.0f)
+            programState->drvoPosition.x = -80.0f;
+
+        glm::mat4 drvoModel = glm::mat4(1.0f);
+        for (int i = 0; i < 6; ++i) {
+            drvoModel = glm::mat4(1.0f);
+            drvoModel = glm::translate(drvoModel,programState->drvoPosition + glm::vec3(40.0f * float(i), 0.0f, 0.0f));
+            drvoModel = glm::scale(drvoModel, glm::vec3(programState->drvoScale));
+            drvoModel = glm::rotate(drvoModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            ourShader.setMat4("model", drvoModel);
+            drva.Draw(ourShader);
+        }
 
 
+
+        //render zgrada
+        float speedZgrada = 4.5f; // brzina za zgrade
+        if(programState->move)
+            programState->zgradePosition.x += speedZgrada * deltaTime;
+        if (programState->zgradePosition.x >= -70.0f)
+            programState->zgradePosition.x = -140.0f;
 
         glm::mat4 zgradeModel = glm::mat4(1.0f);
-        zgradeModel = glm::translate(zgradeModel,programState->zgradePosition);
-        zgradeModel = glm::scale(zgradeModel, glm::vec3(programState->zgradeScale));
-        zgradeModel = glm::rotate(zgradeModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        zgradeModel = glm::rotate(zgradeModel, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        ourShader.setMat4("model", zgradeModel);
-        zgrada.Draw(ourShader);
-
-        glm::mat4 zgrade2Model = glm::mat4(1.0f);
-        zgrade2Model = glm::translate(zgrade2Model,programState->zgrade2Position);
-        zgrade2Model = glm::scale(zgrade2Model, glm::vec3(programState->zgradeScale));
-        zgrade2Model = glm::rotate(zgrade2Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        zgrade2Model = glm::rotate(zgrade2Model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-        ourShader.setMat4("model", zgrade2Model);
-        zgrada.Draw(ourShader);
-
-
+        for (int i = 0; i < 5; ++i) {
+            zgradeModel = glm::mat4(1.0f);
+            zgradeModel = glm::translate(zgradeModel,programState->zgradePosition + glm::vec3(70.0f * float(i), 0.0f, 0.0f));
+            zgradeModel = glm::scale(zgradeModel, glm::vec3(programState->zgradeScale));
+            zgradeModel = glm::rotate(zgradeModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            zgradeModel = glm::rotate(zgradeModel, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+            ourShader.setMat4("model", zgradeModel);
+            zgrada.Draw(ourShader);
+        }
 
         //render stubova
         if(programState->move)
@@ -978,31 +882,11 @@ int main() {
         glBindVertexArray(0);
         glDepthFunc(GL_LESS); // set depth function back to default
 
-
-        // crta travu
-        //ovaj deo koda je pozajmljen privremeno od kolege sa github naloga bodgans55
-        glDisable(GL_CULL_FACE);
-        glm::mat4 model = glm::mat4(1.0f);
-        ourShader.use();
-        projection = glm::perspective(glm::radians(programState->camera.Zoom), (float)SCR_WIDTH / (float)SCR_HEIGHT, 0.1f, 100.0f);
-        view = programState->camera.GetViewMatrix();
-        model = glm::mat4(1.0f);
-        model = glm::scale(model, glm::vec3(5.0f, 1.0f, 5.0f));
-        ourShader.setMat4("projection", projection);
-        ourShader.setMat4("view", view);
-        glBindVertexArray(planeVAO);
-        glBindTexture(GL_TEXTURE_2D, planeTexture);
-        ourShader.setMat4("model", model);
-        glDrawArrays(GL_TRIANGLES, 0, 6);
-        glEnable(GL_CULL_FACE);
-
-
-
         //HDR
         // 2. blur bright fragments with two-pass Gaussian Blur
         // --------------------------------------------------
         bool horizontal = true, first_iteration = true;
-        unsigned int amount = 10;
+        unsigned int amount = 5;
         blurShader.use();
         for (unsigned int i = 0; i < amount; i++)
         {
@@ -1035,9 +919,8 @@ int main() {
 
 
 
-        if (programState->ImGuiEnabled)
-            DrawImGui(programState);
 
+        DrawImGui(programState);
 
         // glfw: swap buffers and poll IO events (keys pressed/released, mouse moved etc.)
         // -------------------------------------------------------------------------------
@@ -1053,9 +936,9 @@ int main() {
 
     // deallocate
     glDeleteVertexArrays(1, &skyboxVAO);
-    glDeleteVertexArrays(1, &planeVAO);
-    glDeleteBuffers(1, &skyboxVAO);
-    glDeleteBuffers(1, &planeVAO);
+    glDeleteVertexArrays(1, &quadVAO);
+    glDeleteBuffers(1, &skyboxVBO);
+    glDeleteBuffers(1, &quadVBO);
 
     // glfw: terminate, clearing all previously allocated GLFW resources.
     // ------------------------------------------------------------------
@@ -1140,14 +1023,15 @@ void DrawImGui(ProgramState *programState) {
     ImGui::End();
 
     //camera info
-    ImGui::Begin("Camera info");
-    const Camera& c = programState->camera;
-    ImGui::Text("Camera position: (%f, %f, %f)", c.Position.x, c.Position.y, c.Position.z);
-    ImGui::Text("(Yaw, Pitch): (%f, %f)", c.Yaw, c.Pitch);
-    ImGui::Text("Camera front: (%f, %f, %f)", c.Front.x, c.Front.y, c.Front.z);
-    ImGui::Checkbox("Camera mouse update", &programState->CameraMouseMovementUpdateEnabled);
-    ImGui::End();
-
+    if (programState->ImGuiEnabled) {
+        ImGui::Begin("Camera info");
+        const Camera &c = programState->camera;
+        ImGui::Text("Camera position: (%f, %f, %f)", c.Position.x, c.Position.y, c.Position.z);
+        ImGui::Text("(Yaw, Pitch): (%f, %f)", c.Yaw, c.Pitch);
+        ImGui::Text("Camera front: (%f, %f, %f)", c.Front.x, c.Front.y, c.Front.z);
+        ImGui::Checkbox("Camera mouse update", &programState->CameraMouseMovementUpdateEnabled);
+        ImGui::End();
+    }
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -1213,40 +1097,6 @@ unsigned int loadCubemap(vector<std::string> faces){
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
-
-    return textureID;
-}
-
-unsigned int loadTexture(char const * path) {
-    unsigned int textureID;
-    glGenTextures(1, &textureID);
-
-    int width, height, nrComponents;
-    unsigned char *data = stbi_load(path, &width, &height, &nrComponents, 0);
-    if (data) {
-        GLenum format;
-        if (nrComponents == 1)
-            format = GL_RED;
-        else if (nrComponents == 3)
-            format = GL_RGB;
-        else if (nrComponents == 4)
-            format = GL_RGBA;
-
-        glBindTexture(GL_TEXTURE_2D, textureID);
-        glTexImage2D(GL_TEXTURE_2D, 0, format, width, height, 0, format, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, format == GL_RGBA ? GL_CLAMP_TO_EDGE
-                                                                            : GL_REPEAT); // for this tutorial: use GL_CLAMP_TO_EDGE to prevent semi-transparent borders. Due to interpolation it takes texels from next repeat
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, format == GL_RGBA ? GL_CLAMP_TO_EDGE : GL_REPEAT);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-        glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-
-        stbi_image_free(data);
-    } else {
-        std::cout << "Texture failed to load at path: " << path << std::endl;
-        stbi_image_free(data);
-    }
 
     return textureID;
 }
