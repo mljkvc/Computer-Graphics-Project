@@ -53,6 +53,7 @@ in vec3 FragPos;
 uniform Material material;
 uniform DirLight dirLight;
 uniform PointLight pointLights[MAX_POINT_LIGHTS];
+uniform PointLight pointLight;
 uniform SpotLight spotLights[MAX_SPOT_LIGHTS];
 uniform SpotLight spotLight;
 uniform SpotLight spotLight1;
@@ -158,6 +159,7 @@ void main()
     for (int i = 0; i < MAX_SPOT_LIGHTS; ++i) {
         result += CalcSpotLight(spotLights[i], normal, FragPos, viewDir);
     }
+    result += CalcPointLight(pointLight, normal, FragPos, viewDir);
 
     //fog
     float distance = length(FragPos - viewPosition);

@@ -399,6 +399,18 @@ int main() {
     spotLight1.cutOff = glm::cos(glm::radians(5.0f));
     spotLight1.outerCutOff = glm::cos(glm::radians(10.0f));
 
+    PointLight& pointLight = programState->pointLight;
+//            pointLight.position = glm::vec3(-90.0 + 30.0f * float(i), 2.0f, -0.25f);
+//            pointLight.position = glm::vec3(0.0f, 2.0f, -0.25f);
+    pointLight.position = programState->nisanPosition3;
+    pointLight.ambient = glm::vec3(0.2, 0.1, 0.1);
+    pointLight.diffuse = glm::vec3(1.0, 0.0, 0.0);
+    pointLight.specular = glm::vec3(1.0, 0.0, 0.0);
+    pointLight.constant = 1.0f;
+    pointLight.linear = 0.7f;
+    pointLight.quadratic = 1.8f;
+
+
 
     //fog
     float fogDensity = 5.0f;
@@ -648,6 +660,17 @@ int main() {
         ourShader.setFloat("spotLight1.quadratic", spotLight1.quadratic);
         ourShader.setFloat("spotLight1.cutOff", spotLight1.cutOff);
         ourShader.setFloat("spotLight1.outerCutOff", spotLight1.outerCutOff);
+
+
+        //point light
+        ourShader.setVec3("pointLight.position", programState->nisanPosition3 + glm::vec3(0.0f, -1.0f, 0.0f));
+        ourShader.setVec3("pointLight.ambient", pointLight.ambient);
+        ourShader.setVec3("pointLight.diffuse", pointLight.diffuse);
+        ourShader.setVec3("pointLight.specular", pointLight.specular);
+        ourShader.setFloat("pointLight.constant", pointLight.constant);
+        ourShader.setFloat("pointLight.linear", pointLight.linear);
+        ourShader.setFloat("pointLight.quadratic", pointLight.quadratic);
+
 
 
         ourShader.setVec3("viewPosition", programState->camera.Position);
