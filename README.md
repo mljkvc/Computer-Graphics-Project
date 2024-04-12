@@ -6,11 +6,14 @@ Project was made for the Computer Graphic course at Faculty of Mathematics, as p
 # Controls
 
 `M` to turn on/off movement of the scene\
+`Up/Down arrow` to speed up/down the movement of the scene
+
 `B` to turn on/off high beams of the car\
 `Left/Right arrow` to turn on/off left/right indicators\
-`Up/Down arrow` to speed up/down the movement of the scene\
-`H` to turn on/off HDR and bloom\
+
+`H` to turn on/off HDR and Bloom\
 `Q` to switch between skyboxes\
+
 `WASD` to move left, right, front and back\
 `Space/Ctrl` to move up and down
 
@@ -49,7 +52,7 @@ Group A:
 Group B:
 - HDR and bloom
 
-Off-course implemented features;
+Off-course implemented features:
 - Fog
 
 # Instructions

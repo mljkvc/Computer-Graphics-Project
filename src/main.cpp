@@ -72,7 +72,7 @@ struct ProgramState {
     bool blicaj = false;
     bool migavacL = false;
     bool migavacD = false;
-    bool move = false;
+    bool move = true;
     bool skySwitch = false;
     bool hdrSwitch = false;
 
