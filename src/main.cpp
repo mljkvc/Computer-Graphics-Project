@@ -81,11 +81,11 @@ struct ProgramState {
 
     glm::vec3 nisanPosition1 = glm::vec3(11.0f, 1.57f, -1.1f);
     float nisanScale1 = 0.7f;
-    glm::vec3 nisanPosition2 = glm::vec3(5.0f, 1.65f, 0.7f);
+    glm::vec3 nisanPosition2 = glm::vec3(0.0f, 1.65f, 0.7f);
     float nisanScale2 = 1.5f;
-    glm::vec3 nisanPosition3 = glm::vec3(-1.0f, 1.57f, -1.65f);
+    glm::vec3 nisanPosition3 = glm::vec3(-11.0f, 1.57f, -1.65f);
     float nisanScale3 = 0.7f;
-    glm::vec3 nisanPosition4 = glm::vec3(-6.0f, 1.65f, 0.72f);
+    glm::vec3 nisanPosition4 = glm::vec3(-25.0f, 1.65f, 0.72f);
     float nisanScale4 = 1.5f;
 
     glm::vec3 drvoPosition = glm::vec3(-80.0f, 0.4f, 5.0f);
@@ -98,7 +98,7 @@ struct ProgramState {
     float lampScale = 0.1f;
 
     glm::vec3 travaPosition = glm::vec3(-100.0f, 0.35f, 10.0f);
-    glm::vec3 trava2Position = glm::vec3(-100.0f, 0.35f, -10.0f);
+    glm::vec3 trava2Position = glm::vec3(-100.0f, 0.35f, -10.5f);
     float travaScale = 1.0f;
 
     glm::vec3 zgradePosition = glm::vec3(-140.0f, 17.0f, 63.0f);
@@ -339,7 +339,7 @@ int main() {
     //directional light
     DirLight dirLight;
     dirLight.direction = glm::vec3(-0.2f, -1.0f, -0.3f);
-    dirLight.ambient = glm::vec3(0.2f);
+    dirLight.ambient = glm::vec3(0.5f);
     dirLight.diffuse = glm::vec3(0.4f);
     dirLight.specular = glm::vec3(0.5f);
 
@@ -453,6 +453,7 @@ int main() {
     bool prekidac = false;
     bool prekidac2 = true;
     bool prekidac3 = true;
+    bool prekidac4 = false;
 
     // render loop
     // -----------
@@ -467,6 +468,9 @@ int main() {
         // -----
         processInput(window);
 
+        //donja granica za kameru
+        if (programState->camera.Position.y < 1.5f)
+            programState->camera.Position.y = 1.5f;
 
         // skybox textures
         stbi_set_flip_vertically_on_load(false);
@@ -590,45 +594,64 @@ int main() {
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
 
+
+        //pomeranje auta
         if(programState->move) {
 
             float napred = 5.0f;
             float nazad = 3.0f;
 
+
+            //1
             if (prekidac)
                 programState->nisanPosition1.x -= napred * deltaTime;
-            if (!prekidac)
+            if(!prekidac)
                 programState->nisanPosition1.x += nazad * deltaTime;
-
-            if (programState->nisanPosition1.x <= 0.0f) {
+            if (programState->nisanPosition1.x <= 6.0f)
                 prekidac = false;
-            }
-            if (programState->nisanPosition1.x >= 9.0f)
+            if (programState->nisanPosition1.x >= 17.0f)
                 prekidac = true;
 
+
+            //2
             if (prekidac2)
                 programState->nisanPosition2.x -= napred * deltaTime;
-            if (!prekidac2)
+            if(!prekidac2)
                 programState->nisanPosition2.x += nazad * deltaTime;
-
-            if (programState->nisanPosition2.x <= 2.0f) {
+            if (programState->nisanPosition2.x <= -5.0f) {
                 prekidac2 = false;
             }
-            if (programState->nisanPosition2.x >= 10.0f)
+            if (programState->nisanPosition2.x >= 5.0f)
                 prekidac2 = true;
 
-            programState->nisanPosition3.z = sin(currentFrame * 1.2f) / 2;
 
+            programState->nisanPosition4.z = sin(currentFrame * 1.2f) / 2;
+
+            //3
             if (prekidac3)
                 programState->nisanPosition3.x -= napred * deltaTime;
-            if (!prekidac3)
+            if(!prekidac3)
                 programState->nisanPosition3.x += nazad * deltaTime;
-
-            if (programState->nisanPosition3.x <= -10.0f) {
+            if (programState->nisanPosition3.x <= -17.0f) {
                 prekidac3 = false;
             }
-            if (programState->nisanPosition3.x >= -1.0f)
+            if (programState->nisanPosition3.x >= -6.0f)
                 prekidac3 = true;
+
+
+            //4
+            if (prekidac4)
+                programState->nisanPosition4 .x -= napred * deltaTime;
+            if(!prekidac4)
+                programState->nisanPosition4 .x += nazad * deltaTime;
+            if (programState->nisanPosition4.x <= -33.0f) {
+                prekidac4 = false;
+            }
+            if (programState->nisanPosition4.x >= -18.0f)
+                prekidac4 = true;
+
+
+
         }
         ourShader.setVec3("spotLight.position", programState->nisanPosition3 + glm::vec3(-0.9,0.06,0.48));
         ourShader.setVec3("spotLight1.position", programState->nisanPosition3 + glm::vec3(-0.9,0.06,-0.48));
@@ -949,6 +972,25 @@ void processInput(GLFWwindow *window) {
         programState->camera.ProcessKeyboard(UP, deltaTime);
     if (glfwGetKey(window, GLFW_KEY_LEFT_CONTROL) == GLFW_PRESS)
         programState->camera.ProcessKeyboard(DOWN, deltaTime);
+
+    //brzina trake
+    if(glfwGetKey(window, GLFW_KEY_UP) == GLFW_PRESS) {
+        speed += 0.5;
+        speedZgrada += 0.5;
+        if(speed >= 197.0f)
+            speed = 197.0f;
+        if(speedZgrada >= 194.5f)
+            speedZgrada = 194.5f;
+    }
+    if(glfwGetKey(window, GLFW_KEY_DOWN) == GLFW_PRESS) {
+        speed -= 0.5;
+        speedZgrada -= 0.5;
+        if(speed <= 2.0f)
+            speed = 2.0f;
+        if(speedZgrada <= 2.5f)
+            speedZgrada = 2.5f;
+
+    }
 }
 
 
@@ -1027,15 +1069,15 @@ void DrawImGui(ProgramState *programState) {
     ImGui::End();
 
     //camera info
-    if (programState->ImGuiEnabled) {
-        ImGui::Begin("Camera info");
-        const Camera &c = programState->camera;
-        ImGui::Text("Camera position: (%f, %f, %f)", c.Position.x, c.Position.y, c.Position.z);
-        ImGui::Text("(Yaw, Pitch): (%f, %f)", c.Yaw, c.Pitch);
-        ImGui::Text("Camera front: (%f, %f, %f)", c.Front.x, c.Front.y, c.Front.z);
-        ImGui::Checkbox("Camera mouse update", &programState->CameraMouseMovementUpdateEnabled);
-        ImGui::End();
-    }
+//    if (programState->ImGuiEnabled) {
+//        ImGui::Begin("Camera info");
+//        const Camera &c = programState->camera;
+//        ImGui::Text("Camera position: (%f, %f, %f)", c.Position.x, c.Position.y, c.Position.z);
+//        ImGui::Text("(Yaw, Pitch): (%f, %f)", c.Yaw, c.Pitch);
+//        ImGui::Text("Camera front: (%f, %f, %f)", c.Front.x, c.Front.y, c.Front.z);
+//        ImGui::Checkbox("Camera mouse update", &programState->CameraMouseMovementUpdateEnabled);
+//        ImGui::End();
+//    }
     ImGui::Render();
     ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 }
@@ -1070,23 +1112,6 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
     }
     if(key == GLFW_KEY_H && action == GLFW_PRESS) {
         programState->hdrSwitch = !programState->hdrSwitch;
-    }
-    if(key == GLFW_KEY_UP && action == GLFW_PRESS) {
-        speed += 2;
-        speedZgrada += 2;
-        if(speed >= 97.0f)
-            speed = 97.0f;
-        if(speedZgrada >= 94.5f)
-            speedZgrada = 94.5f;
-    }
-    if(key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
-        speed -= 2;
-        speedZgrada -= 2;
-        if(speed <= 2.0f)
-            speed = 2.0f;
-        if(speedZgrada <= 2.5f)
-            speedZgrada = 2.5f;
-
     }
 
 
