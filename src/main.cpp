@@ -97,8 +97,8 @@ struct ProgramState {
     glm::vec3 lampPosition = glm::vec3(-90.0f, 0.8f, 3.0f);
     float lampScale = 0.1f;
 
-    glm::vec3 travaPosition = glm::vec3(-60.0f, 1.1f, 4.3f);
-    glm::vec3 trava2Position = glm::vec3(-60.0f, 1.1f, -10.35f);
+    glm::vec3 travaPosition = glm::vec3(-100.0f, 0.35f, 10.0f);
+    glm::vec3 trava2Position = glm::vec3(-100.0f, 0.35f, -10.0f);
     float travaScale = 1.0f;
 
     glm::vec3 zgradePosition = glm::vec3(-140.0f, 17.0f, 63.0f);
@@ -158,6 +158,9 @@ void DrawImGui(ProgramState *programState);
 unsigned int colorBuffers[2];
 unsigned int rboDepth;
 unsigned int pingpongColorbuffers[2];
+
+float speed = 7.0f; // brzina puta
+float speedZgrada = 4.5f; // brzina zgrada
 
 
 int main() {
@@ -317,7 +320,7 @@ int main() {
     Model lamp("resources/objects/okoloputnici/street_lamp/scene.gltf");
     lamp.SetShaderTextureNamePrefix("material.");
 
-    Model trava("resources/objects/Priroda/trava/scene.gltf");
+    Model trava("resources/objects/Priroda/trava/textures/trava.obj");
     trava.SetShaderTextureNamePrefix("material.");
 
     Model zgrada("resources/objects/okoloputnici/zgrade/scene.gltf");
@@ -583,6 +586,7 @@ int main() {
         glm::mat4 projection = glm::perspective(glm::radians(programState->camera.Zoom),
                                                 (float) SCR_WIDTH / (float) SCR_HEIGHT, 0.1f, 100.0f + 69.0f);
         glm::mat4 view = programState->camera.GetViewMatrix();
+        glm::mat4 model = glm::mat4(1.0f);
         ourShader.setMat4("projection", projection);
         ourShader.setMat4("view", view);
 
@@ -632,7 +636,6 @@ int main() {
 
 
         // renderovanje puta
-        float speed = 7.0f; // brzina puta
         if(programState->move)
             programState->putPosition.x += speed * deltaTime;
 
@@ -640,46 +643,46 @@ int main() {
         if (programState->putPosition.x >= -49.0f)
             programState->putPosition.x = -80.0f;
 
-        glm::mat4 putModel = glm::mat4(1.0f);
+        model = glm::mat4(1.0f);
         for (int i = 0; i < 6; ++i) {
-            putModel = glm::mat4(1.0f);
-            putModel = glm::translate(putModel, programState->putPosition + glm::vec3(31.0f * float(i), 0.0f, 0.0f));
-            putModel = glm::scale(putModel, glm::vec3(programState->putScale));
-            ourShader.setMat4("model", putModel);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model, programState->putPosition + glm::vec3(31.0f * float(i), 0.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(programState->putScale));
+            ourShader.setMat4("model", model);
             put.Draw(ourShader);
         }
 
 
         //1. auto
-        glm::mat4 nisanModel = glm::mat4(1.0f);
-        nisanModel = glm::translate(nisanModel,programState->nisanPosition1);
-        nisanModel = glm::scale(nisanModel, glm::vec3(programState->nisanScale1));
-        nisanModel = glm::rotate(nisanModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", nisanModel);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model,programState->nisanPosition1);
+        model = glm::scale(model, glm::vec3(programState->nisanScale1));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", model);
         auto1.Draw(ourShader);
 
         //2. auto
-        glm::mat4 nisanModel2 = glm::mat4(1.0f);
-        nisanModel2 = glm::translate(nisanModel2,programState->nisanPosition2);
-        nisanModel2 = glm::scale(nisanModel2, glm::vec3(programState->nisanScale2));
-        nisanModel2 = glm::rotate(nisanModel2, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", nisanModel2);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model,programState->nisanPosition2);
+        model = glm::scale(model, glm::vec3(programState->nisanScale2));
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", model);
         auto2.Draw(ourShader);
 
         //3. auto
-        glm::mat4 nisanModel3 = glm::mat4(1.0f);
-        nisanModel3 = glm::translate(nisanModel3,programState->nisanPosition3);
-        nisanModel3 = glm::scale(nisanModel3, glm::vec3(programState->nisanScale3));
-        nisanModel3 = glm::rotate(nisanModel3, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", nisanModel3);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model,programState->nisanPosition3);
+        model = glm::scale(model, glm::vec3(programState->nisanScale3));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", model);
         auto3.Draw(ourShader);
 
         //4. auto
-        glm::mat4 nisanModel4 = glm::mat4(1.0f);
-        nisanModel4 = glm::translate(nisanModel4,programState->nisanPosition4);
-        nisanModel4 = glm::scale(nisanModel4, glm::vec3(programState->nisanScale4));
-        nisanModel4 = glm::rotate(nisanModel4, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        ourShader.setMat4("model", nisanModel4);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model,programState->nisanPosition4);
+        model = glm::scale(model, glm::vec3(programState->nisanScale4));
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        ourShader.setMat4("model", model);
         auto4.Draw(ourShader);
 
 
@@ -689,33 +692,32 @@ int main() {
         if (programState->drvoPosition.x >= -40.0f)
             programState->drvoPosition.x = -80.0f;
 
-        glm::mat4 drvoModel = glm::mat4(1.0f);
-        for (int i = 0; i < 6; ++i) {
-            drvoModel = glm::mat4(1.0f);
-            drvoModel = glm::translate(drvoModel,programState->drvoPosition + glm::vec3(40.0f * float(i), 0.0f, 0.0f));
-            drvoModel = glm::scale(drvoModel, glm::vec3(programState->drvoScale));
-            drvoModel = glm::rotate(drvoModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-            ourShader.setMat4("model", drvoModel);
+        model = glm::mat4(1.0f);
+        for (int i = 0; i < 5; ++i) {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model,programState->drvoPosition + glm::vec3(40.0f * float(i), 0.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(programState->drvoScale));
+            model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+            ourShader.setMat4("model", model);
             drva.Draw(ourShader);
         }
 
 
 
         //render zgrada
-        float speedZgrada = 4.5f; // brzina za zgrade
         if(programState->move)
             programState->zgradePosition.x += speedZgrada * deltaTime;
         if (programState->zgradePosition.x >= -70.0f)
             programState->zgradePosition.x = -140.0f;
 
-        glm::mat4 zgradeModel = glm::mat4(1.0f);
-        for (int i = 0; i < 5; ++i) {
-            zgradeModel = glm::mat4(1.0f);
-            zgradeModel = glm::translate(zgradeModel,programState->zgradePosition + glm::vec3(70.0f * float(i), 0.0f, 0.0f));
-            zgradeModel = glm::scale(zgradeModel, glm::vec3(programState->zgradeScale));
-            zgradeModel = glm::rotate(zgradeModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-            zgradeModel = glm::rotate(zgradeModel, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-            ourShader.setMat4("model", zgradeModel);
+        model = glm::mat4(1.0f);
+        for (int i = 0; i < 4; ++i) {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model,programState->zgradePosition + glm::vec3(70.0f * float(i), 0.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(programState->zgradeScale));
+            model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+            ourShader.setMat4("model", model);
             zgrada.Draw(ourShader);
         }
 
@@ -725,14 +727,14 @@ int main() {
         if (programState->pwrlPosition.x >= -48.6f)
             programState->pwrlPosition.x = -64.8f;
 
-        glm::mat4 powerlineModel = glm::mat4(1.0f);
+        model = glm::mat4(1.0f);
         for (int i = 0; i < 10; ++i) {
-            powerlineModel = glm::mat4(1.0f);
-            powerlineModel = glm::translate(powerlineModel,programState->pwrlPosition + glm::vec3(16.2f * float(i), 0.0f, 0.0f));
-            powerlineModel = glm::scale(powerlineModel, glm::vec3(programState->pwrlScale));
-            powerlineModel = glm::rotate(powerlineModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-            powerlineModel = glm::rotate(powerlineModel, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-            ourShader.setMat4("model", powerlineModel);
+            model = glm::mat4(1.0f);
+            model = glm::translate(model,programState->pwrlPosition + glm::vec3(16.2f * float(i), 0.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(programState->pwrlScale));
+            model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 0.0f, 1.0f));
+            ourShader.setMat4("model", model);
             powerline.Draw(ourShader);
         }
 
@@ -743,20 +745,20 @@ int main() {
         if (programState->lampPosition.x >= -60.0f)
             programState->lampPosition.x = -90.0f;
 
-        glm::mat4 lampModel = glm::mat4(1.0f);
-        for (int i = 0; i < 10; ++i) {
-            lampModel = glm::mat4(1.0f);
-            lampModel = glm::translate(lampModel,programState->lampPosition + glm::vec3(30.0f * float(i), 0.0f, 0.0f));
-            lampModel = glm::scale(lampModel, glm::vec3(programState->lampScale));
-            lampModel = glm::rotate(lampModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-            ourShader.setMat4("model", lampModel);
+        model = glm::mat4(1.0f);
+        for (int i = 0; i < 7; ++i) {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model,programState->lampPosition + glm::vec3(30.0f * float(i), 0.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(programState->lampScale));
+            model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+            ourShader.setMat4("model", model);
             lamp.Draw(ourShader);
         }
 
 
         //spotlight za lampu
         std::vector<SpotLight> spotLights;
-        for (int i = 0; i < 10; ++i) {
+        for (int i = 0; i < 7; ++i) {
             SpotLight LampLight;
             LampLight.position = programState->lampPosition + glm::vec3(30.0f * float(i), 6.8f, -3.4f);
             LampLight.ambient = glm::vec3(1.0, 1.0, 1.0);
@@ -791,42 +793,41 @@ int main() {
             programState->trava2Position.x += speed * deltaTime;
         }
         if (programState->travaPosition.x >= -40.0f)
-            programState->travaPosition.x = -60.0f;
+            programState->travaPosition.x = -100.0f;
         if (programState->trava2Position.x >= -40.0f)
-            programState->trava2Position.x = -60.0f;
+            programState->trava2Position.x = -100.0f;
 
         glDisable(GL_CULL_FACE);
-        glm::mat4 travaModel = glm::mat4(1.0f);
+        model = glm::mat4(1.0f);
         //desno
-        for (int i = 0; i < 16; ++i) {
-            travaModel = glm::mat4(1.0f);
-            travaModel = glm::translate(travaModel,programState->travaPosition + glm::vec3(9.0f * float(i), 0.0f, 0.0f));
-            travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
-            travaModel = glm::rotate(travaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-            ourShader.setMat4("model", travaModel);
+        for (int i = 0; i < 3; ++i) {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model,programState->travaPosition + glm::vec3(60.0f * float(i), 0.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(programState->travaScale));
+            ourShader.setMat4("model", model);
             trava.Draw(ourShader);
         }
         //levo
-        for (int i = 0; i < 16; ++i) {
-            travaModel = glm::mat4(1.0f);
-            travaModel = glm::translate(travaModel,programState->trava2Position + glm::vec3(9.0f * float(i), 0.0f, 0.0f));
-            travaModel = glm::scale(travaModel, glm::vec3(programState->travaScale));
-            travaModel = glm::rotate(travaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-            ourShader.setMat4("model", travaModel);
+        model = glm::mat4(1.0f);
+        for (int i = 0; i < 3; ++i) {
+            model = glm::mat4(1.0f);
+            model = glm::translate(model,programState->trava2Position + glm::vec3(60.0f * float(i), 0.0f, 0.0f));
+            model = glm::scale(model, glm::vec3(programState->travaScale));
+            ourShader.setMat4("model", model);
             trava.Draw(ourShader);
         }
 
-
-        glm::mat4 planinaModel = glm::mat4(1.0f);
-        planinaModel = glm::translate(planinaModel,programState->planinaPosition);
-        planinaModel = glm::scale(planinaModel, glm::vec3(programState->planinaScale));
-        planinaModel = glm::rotate(planinaModel, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        planinaModel = glm::rotate(planinaModel, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-        planinaModel = glm::rotate(planinaModel, glm::radians(5.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        ourShader.setMat4("model", planinaModel);
+        //render planine-----------------------------------
+        model = glm::mat4(1.0f);
+        model = glm::translate(model,programState->planinaPosition);
+        model = glm::scale(model, glm::vec3(programState->planinaScale));
+        model = glm::rotate(model, glm::radians(180.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(90.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+        model = glm::rotate(model, glm::radians(5.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", model);
         planina.Draw(ourShader);
 
-        //terrain model
+        //render brda
         if(programState->move) {
             programState->terrainPosition.x += speed * deltaTime;
             programState->terrain1Position.x += speed * deltaTime;
@@ -836,18 +837,18 @@ int main() {
         if (programState->terrain1Position.x >= 214.0f)
             programState->terrain1Position.x = -214.0f;
 
-        glm::mat4 terrainModel = glm::mat4(1.0f);
-        terrainModel = glm::translate(terrainModel,programState->terrainPosition);
-        terrainModel = glm::scale(terrainModel, glm::vec3(programState->terrainScale));
-        terrainModel = glm::rotate(terrainModel, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        ourShader.setMat4("model", terrainModel);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model,programState->terrainPosition);
+        model = glm::scale(model, glm::vec3(programState->terrainScale));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", model);
         terrain.Draw(ourShader);
 
-        glm::mat4 terrain1Model = glm::mat4(1.0f);
-        terrain1Model = glm::translate(terrain1Model,programState->terrain1Position);
-        terrain1Model = glm::scale(terrain1Model, glm::vec3(programState->terrainScale));
-        terrain1Model = glm::rotate(terrain1Model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
-        ourShader.setMat4("model", terrain1Model);
+        model = glm::mat4(1.0f);
+        model = glm::translate(model,programState->terrain1Position);
+        model = glm::scale(model, glm::vec3(programState->terrainScale));
+        model = glm::rotate(model, glm::radians(-90.0f), glm::vec3(1.0f, 0.0f, 0.0f));
+        ourShader.setMat4("model", model);
         terrain.Draw(ourShader);
 
 
@@ -1064,12 +1065,35 @@ void key_callback(GLFWwindow *window, int key, int scancode, int action, int mod
     if(key == GLFW_KEY_H && action == GLFW_PRESS) {
         programState->hdrSwitch = !programState->hdrSwitch;
     }
+    if(key == GLFW_KEY_H && action == GLFW_PRESS) {
+        programState->hdrSwitch = !programState->hdrSwitch;
+    }
+    if(key == GLFW_KEY_H && action == GLFW_PRESS) {
+        programState->hdrSwitch = !programState->hdrSwitch;
+    }
+    if(key == GLFW_KEY_UP && action == GLFW_PRESS) {
+        speed += 2;
+        speedZgrada += 2;
+        if(speed >= 97.0f)
+            speed = 97.0f;
+        if(speedZgrada >= 94.5f)
+            speedZgrada = 94.5f;
+    }
+    if(key == GLFW_KEY_DOWN && action == GLFW_PRESS) {
+        speed -= 2;
+        speedZgrada -= 2;
+        if(speed <= 2.0f)
+            speed = 2.0f;
+        if(speedZgrada <= 2.5f)
+            speedZgrada = 2.5f;
+
+    }
 
 
     if (key == GLFW_KEY_F1 && action == GLFW_PRESS) {
         programState->ImGuiEnabled = !programState->ImGuiEnabled;
         if (programState->ImGuiEnabled) {
-            programState->CameraMouseMovementUpdateEnabled = false;
+//            programState->CameraMouseMovementUpdateEnabled = false;
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
         } else {
             glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);

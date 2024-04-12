@@ -1,7 +1,7 @@
 #version 330 core
 out vec4 FragColor;
 
-#define MAX_SPOT_LIGHTS 10
+#define MAX_SPOT_LIGHTS 7
 
 struct DirLight {
     vec3 direction;
