@@ -9,10 +9,10 @@ Project was made for the Computer Graphic course at Faculty of Mathematics, as p
 `Up/Down arrow` to speed up/down the movement of the scene
 
 `B` to turn on/off high beams of the car\
-`Left/Right arrow` to turn on/off left/right indicators\
+`Left/Right arrow` to turn on/off left/right indicators
 
 `H` to turn on/off HDR and Bloom\
-`Q` to switch between skyboxes\
+`Q` to switch between skyboxes
 
 `WASD` to move left, right, front and back\
 `Space/Ctrl` to move up and down
