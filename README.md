@@ -18,7 +18,14 @@ Project was made for the Computer Graphic course at Faculty of Mathematics, as p
 `Space/Ctrl` to move up and down
 
 
-![alt text](img.png)
+
+# Demo video
+Turn on the sound for better expirience
+
+https://github.com/mljkvc/Computer-Graphics-Project/assets/60828160/527d2ae8-6c4d-4fda-8d39-489cbb201c26
+
+
+
 
 # Features
 **This project was made in C++ using OpenGL, GLAD and GLFW**
